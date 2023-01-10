@@ -20,6 +20,7 @@
     "@rollup/plugin-terser": "^0.3.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/react": "^18.0.26",
+    "@types/styled-components": "^5.1.26",
     "prettier": "^2.8.2",
     "rollup": "^3.9.1",
     "rollup-plugin-dts": "^5.1.1",
@@ -29,5 +30,10 @@
   },
   "peerDependencies": {
     "react": "^18.2.0"
+  },
+  "dependencies": {
+    "@ensdomains/thorin": "^0.6.20",
+    "react-transition-state": "^2.0.2",
+    "styled-components": "^5.3.6"
   }
 }

@@ -1,11 +1,15 @@
+import { ThemeProvider } from 'styled-components'
+import { ThorinGlobalStyles, lightTheme } from '@ensdomains/thorin'
+import { Typography } from '@ensdomains/thorin'
 import React from 'react'
 
-export interface ButtonProps {
-  label: string
-}
-
-const Widget = (props: ButtonProps) => {
-  return <button>{props.label}</button>
+const Widget = () => {
+  return (
+    <ThemeProvider theme={lightTheme}>
+      <ThorinGlobalStyles />
+      <Typography>hi</Typography>
+    </ThemeProvider>
+  )
 }
 
 export default Widget
