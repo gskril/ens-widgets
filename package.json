@@ -4,6 +4,7 @@
   "description": "Embeddable widget to register ENS names",
   "author": "Greg Skriloff",
   "scripts": {
+    "dev": "rollup -w -c",
     "rollup": "rollup -c",
     "clean": "rm -rf dist"
   },
@@ -29,8 +30,10 @@
     "typescript": "^4.9.4"
   },
   "peerDependencies": {
+    "ethers": "^5.7.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "wagmi": "^0.10.10"
   },
   "dependencies": {
     "@ensdomains/thorin": "^0.6.20",
