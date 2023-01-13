@@ -15,7 +15,8 @@ import {
 } from '@wagmi/core'
 import { providers } from 'ethers'
 
-export interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
+interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
+  connectAction: (() => void) | undefined
   wagmiClientConfig: {
     autoConnect?: boolean
     connectors?: () => Connector<any, any, any>[]
@@ -36,7 +37,11 @@ export interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
  * Widget that allows users to register ENS names inline
  * @param wagmiClientConfig Config object that gets passed into wagmi's `createClient()`
  */
-export const Widget = ({ wagmiClientConfig, ...props }: WidgetProps) => {
+export const Widget = ({
+  connectAction,
+  wagmiClientConfig,
+  ...props
+}: WidgetProps) => {
   if (!wagmiClientConfig) return null // TODO: handle this better
 
   const client = createClient(wagmiClientConfig)
@@ -44,8 +49,8 @@ export const Widget = ({ wagmiClientConfig, ...props }: WidgetProps) => {
   return (
     <WagmiConfig client={client}>
       <ThemeProvider theme={theme}>
-        <ThorinGlobalStyles {...props} />
-        <WidgetContent />
+        <ThorinGlobalStyles />
+        <WidgetContent connectAction={connectAction} {...props} />
       </ThemeProvider>
     </WagmiConfig>
   )

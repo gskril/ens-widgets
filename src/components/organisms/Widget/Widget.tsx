@@ -5,7 +5,11 @@ import { Button, Card, Inputs } from './styles'
 import { Header } from '../Header'
 import { Input } from '../../atoms/Input'
 
-const Widget = ({ ...props }) => {
+interface WidgetProps {
+  connectAction: (() => void) | undefined
+}
+
+const Widget = ({ connectAction, ...props }: WidgetProps) => {
   const [name, setName] = React.useState<string>('')
   const [duration, setDuration] = React.useState<string>('1 year')
 
@@ -39,7 +43,14 @@ const Widget = ({ ...props }) => {
       </Inputs>
 
       {!isConnected && (
-        <Button variant="secondary" shadowless>
+        <Button
+          shadowless
+          variant="secondary"
+          onClick={() => {
+            // TODO: add toast error if connectAction is undefined
+            connectAction?.()
+          }}
+        >
           Connect Wallet
         </Button>
       )}
