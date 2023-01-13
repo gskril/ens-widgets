@@ -10,15 +10,26 @@ Now you can import the component into your project and use it like so:
 
 ```jsx
 import { Widget } from 'ens-widget'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+
+const clientConfig = {
+  connectors: /* ... */,
+  provider: /* ... */,
+}
 
 const App = () => {
+  const { openConnectModal } = useConnectModal()
+
   return (
-    <div>
-      <Widget />
-    </div>
+    <Widget
+      connectAction={openConnectModal}
+      wagmiClientConfig={clientConfig}
+    />
   )
 }
 ```
+
+While `clientConfig` may look confusing, you already have it from when you configured wagmi in your app. Just export it from the file where you configured wagmi ([like this](https://github.com/gskril/web3-starter/blob/main/src/providers.ts#L19-L23)) and import it into the file where you're using the widget.
 
 ## Notes
 
