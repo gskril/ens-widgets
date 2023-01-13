@@ -1,6 +1,8 @@
-# ENS Registration Widget
+# ENS Registration Widget (In Progress)
 
 This is a React component that allows you to register .eth names on the Ethereum Name Service (ENS).
+
+![ens-widget](https://user-images.githubusercontent.com/35093316/212418070-f595cb64-260b-4069-b191-5e2553b8cd6a.jpg)
 
 ## Usage
 
