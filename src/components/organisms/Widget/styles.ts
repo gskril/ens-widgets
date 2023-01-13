@@ -21,21 +21,6 @@ export const Card = styled.div(
   `
 )
 
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-export const LogoWrapper = styled.div`
-  width: 1.5rem;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-`
-
 export const Inputs = styled.div(
   ({ theme }) => css`
     width: 100%;

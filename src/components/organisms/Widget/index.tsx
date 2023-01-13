@@ -1,58 +1,52 @@
+import { createClient, WagmiConfig } from 'wagmi'
 import { ThemeProvider } from 'styled-components'
-import { ThorinGlobalStyles, Typography } from '@ensdomains/thorin'
+import { ThorinGlobalStyles } from '@ensdomains/thorin'
 import React from 'react'
 
-import { Button, Card, Header, Inputs, LogoWrapper } from './styles'
-import { Input } from '../../atoms/Input'
-import { Logo } from '../../atoms/Icons'
 import { theme } from '../../../styles/theme'
+import { WidgetContent } from './Widget'
+import {
+  Chain,
+  Connector,
+  Provider,
+  ProviderWithFallbackConfig,
+  Storage,
+  WebSocketProvider,
+} from '@wagmi/core'
+import { providers } from 'ethers'
 
-export interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
+  wagmiClientConfig: {
+    autoConnect?: boolean
+    connectors?: () => Connector<any, any, any>[]
+    logger?: any
+    provider: ({ chainId }: { chainId?: number | undefined }) => (
+      | ProviderWithFallbackConfig<Provider>
+      | providers.FallbackProvider
+    ) & {
+      chains: Chain[]
+      pollingInterval: number
+    }
+    storage?: Storage
+    webSocketProvider?: WebSocketProvider
+  }
+}
 
-export const Widget = ({ ...props }) => {
-  const [name, setName] = React.useState<string>('')
-  const [duration, setDuration] = React.useState<string>('1 year')
+/**
+ * Widget that allows users to register ENS names inline
+ * @param wagmiClientConfig Config object that gets passed into wagmi's `createClient()`
+ */
+export const Widget = ({ wagmiClientConfig, ...props }: WidgetProps) => {
+  if (!wagmiClientConfig) return null // TODO: handle this better
+
+  const client = createClient(wagmiClientConfig)
 
   return (
-    <ThemeProvider theme={theme}>
-      <ThorinGlobalStyles />
-      <Card {...props}>
-        <Header>
-          <Typography
-            as="label"
-            variant="large"
-            weight="semiBold"
-            style={{ lineHeight: 1 }}
-          >
-            Register an .eth name
-          </Typography>
-          <LogoWrapper>
-            <Logo />
-          </LogoWrapper>
-        </Header>
-
-        <Inputs>
-          <Input
-            type="text"
-            label="Name"
-            placeholder="nick.eth"
-            value={name}
-            setValue={setName}
-          />
-
-          <Input
-            type="number"
-            label="Duration"
-            placeholder="1 year"
-            value={duration}
-            setValue={setDuration}
-          />
-        </Inputs>
-
-        <Button variant="secondary" shadowless>
-          Connect Wallet
-        </Button>
-      </Card>
-    </ThemeProvider>
+    <WagmiConfig client={client}>
+      <ThemeProvider theme={theme}>
+        <ThorinGlobalStyles {...props} />
+        <WidgetContent />
+      </ThemeProvider>
+    </WagmiConfig>
   )
 }
