@@ -11,6 +11,7 @@ import { useFetch } from './useFetch'
 interface Cost {
   name: string
   duration: string
+  isConnected: boolean
 }
 
 interface CostReturn {
@@ -18,8 +19,12 @@ interface CostReturn {
   isLoading: boolean
 }
 
-export const useCost = ({ name: _name, duration }: Cost): CostReturn => {
-  const enabled = _name && duration ? true : false
+export const useCost = ({
+  name: _name,
+  duration,
+  isConnected,
+}: Cost): CostReturn => {
+  const enabled = isConnected && _name && duration ? true : false
 
   const { data: gasbest } = useFetch<any>(
     enabled ? 'https://gas.best/stats' : undefined
@@ -44,12 +49,6 @@ export const useCost = ({ name: _name, duration }: Cost): CostReturn => {
   const gasCostInEth = gasCostInGwei ? gasCostInGwei / 1e9 : null
   const finalCostEth = Number(rentPriceInEth) + Number(gasCostInEth)
   const finalCostUSD = ethPrice ? (finalCostEth * ethPrice).toFixed(2) : null
-
-  console.log({
-    rentPriceInEth: rentPriceInEth?.toString(),
-    gasCostInEth: gasCostInEth?.toString(),
-    finalCostEth: finalCostEth?.toString(),
-  })
 
   return {
     cost: finalCostUSD ? `$${finalCostUSD.toString()}` : null,

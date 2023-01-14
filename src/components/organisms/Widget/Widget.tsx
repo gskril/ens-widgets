@@ -25,6 +25,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
   const { cost, isLoading: costIsLoading } = useCost({
     name: debouncedName,
     duration: debouncedDuration,
+    isConnected,
   })
 
   if (!mounted) return null
