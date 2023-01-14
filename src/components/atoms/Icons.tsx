@@ -70,7 +70,7 @@ export const CheckIcon = () => {
       width="1em"
       height="1em"
       focusable="false"
-      shape-rendering="geometricPrecision"
+      shapeRendering="geometricPrecision"
     >
       <path
         fill="currentColor"
