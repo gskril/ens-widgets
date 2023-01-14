@@ -13,8 +13,10 @@ interface WidgetProps {
 
 const Widget = ({ connectAction, ...props }: WidgetProps) => {
   const [name, setName] = React.useState<string>('')
-  const debouncedName = useDebounce<string>(name, 500)
   const [duration, setDuration] = React.useState<string>('1 year')
+
+  const debouncedName = useDebounce<string>(name, 500)
+  const debouncedDuration = useDebounce<string>(duration, 500)
 
   const [mounted, setMounted] = React.useState<boolean>(false)
   React.useEffect(() => setMounted(true), [])
@@ -22,7 +24,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
   const { isConnected } = useAccount()
   const { cost, isLoading: costIsLoading } = useCost({
     name: debouncedName,
-    duration,
+    duration: debouncedDuration,
   })
 
   if (!mounted) return null
