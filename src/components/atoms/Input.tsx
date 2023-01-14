@@ -5,6 +5,7 @@ const InputWrapper = styled.div(
   ({ theme }) => css`
     width: 100%;
     display: flex;
+    position: relative;
     flex-direction: column;
     gap: ${theme.space[1]};
     padding: ${theme.space[3]} ${theme.space[4]};
@@ -42,6 +43,42 @@ const StyledInput = styled.input(
       outline: none;
       border-bottom: ${theme.borderWidths['0.375']} solid ${theme.colors.accent};
     }
+
+    &:disabled {
+      color: inherit;
+      background-color: inherit;
+    }
+  `
+)
+
+const Counters = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    gap: ${theme.space[2]};
+    position: absolute;
+    right: ${theme.space[4]};
+    bottom: ${theme.space[4]};
+  `
+)
+
+const Counter = styled.button(
+  ({ theme }) => css`
+    display: flex;
+    padding-bottom: 2px;
+    justify-content: center;
+    align-items: center;
+    width: ${theme.space[6]};
+    height: ${theme.space[6]};
+    border-radius: ${theme.radii.full};
+    background-color: ${theme.colors.accent};
+    border: 1px solid ${theme.colors.borderTertiary};
+    font-size: ${theme.fontSizes.large};
+    color: ${theme.colors.white};
+    line-height: 1;
+
+    &:disabled {
+      background-color: ${theme.colors.accentSecondary};
+    }
   `
 )
 
@@ -61,15 +98,49 @@ export const Input = ({
   setValue,
   ...props
 }: InputProps) => {
+  const handleIncrement = () => {
+    const currentValue = parseInt(value)
+    if (currentValue > 9) return
+    setValue((currentValue + 1).toString() + ' years')
+  }
+
+  const handleDecrement = () => {
+    const currentValue = parseInt(value)
+    if (currentValue < 2) return
+    setValue(
+      (currentValue - 1).toString() +
+        ` ${currentValue === 2 ? 'year' : 'years'}`
+    )
+  }
+
   return (
     <InputWrapper {...props}>
       <Label htmlFor={label}>{label}</Label>
+
       <StyledInput
         id={label}
-        placeholder={placeholder}
         value={value}
+        placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}
+        disabled={type === 'number'}
       />
+
+      {type === 'number' && (
+        <Counters>
+          <Counter
+            disabled={parseInt(value) < 2}
+            onClick={() => handleDecrement()}
+          >
+            –
+          </Counter>
+          <Counter
+            disabled={parseInt(value) > 9}
+            onClick={() => handleIncrement()}
+          >
+            +
+          </Counter>
+        </Counters>
+      )}
     </InputWrapper>
   )
 }
