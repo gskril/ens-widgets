@@ -20,6 +20,7 @@ import { parseName } from '../../../utils'
 import { useCost } from '../../../hooks/useCost'
 import { useCreateSecret } from '../../../hooks/useCreateSecret'
 import useDebounce from '../../../hooks/useDebounce'
+import { Rows } from '../../atoms/Row'
 
 interface WidgetProps {
   connectAction: (() => void) | undefined
@@ -79,11 +80,41 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
 
   if (!mounted) return null
 
-  // Second screen
-  if (commitIsSuccess || commitIsError) {
+  // Second screen - registration has began
+  if (commitTx) {
+    const rowData = [
+      { name: 'Name', value: debouncedName },
+      { name: 'Duration', value: debouncedDuration },
+    ]
+
+    if (cost) {
+      rowData.push({ name: 'Cost', value: cost })
+    }
+
     return (
       <Card {...props}>
-        <p>Made it to step 2!</p>
+        <Header />
+
+        <Rows data={rowData} />
+
+        {commitIsLoading && (
+          <Button
+            loading
+            shadowless
+            variant="secondary"
+            onClick={() => {
+              // open link to etherscan in new tab
+              window.open(
+                `https://${chain?.id === 5 ? 'goerli.' : ''}etherscan.io/tx/${
+                  commitTx?.hash
+                }`,
+                '_blank'
+              )
+            }}
+          >
+            Transaction processing...
+          </Button>
+        )}
         {commitIsSuccess && <p>Success!</p>}
         {commitIsError && <p>Error :/</p>}
       </Card>
