@@ -30,7 +30,7 @@ export const Header = () => {
       >
         Register an .eth name
       </Typography>
-      <LogoWrapper>
+      <LogoWrapper as="a" href="http://ens.domains/" target="_blank">
         <Logo />
       </LogoWrapper>
     </Container>
