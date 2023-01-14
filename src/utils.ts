@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto'
 import { SECONDS_PER_YEAR } from './contracts'
 
 /**
@@ -10,4 +11,13 @@ export const parseDuration = (duration: string): string => {
   const years = parseFloat(yearsStr)
   const seconds = years * SECONDS_PER_YEAR
   return seconds.toString()
+}
+
+/**
+ * Create a random bytes32 value and prepend '0x'
+ */
+export const createSecret = (): `0x${string}` => {
+  const bytes = randomBytes(32).toString('hex')
+
+  return ('0x' + bytes) as `0x${string}`
 }

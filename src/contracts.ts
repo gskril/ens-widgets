@@ -8,7 +8,7 @@ export const REGISTRATION_GAS_AMOUNT = 300000
 
 export const TOTAL_GAS_AMOUNT = REGISTRATION_GAS_AMOUNT + COMMIT_GAS_AMOUNT
 
-export const getResolverAddress = (chainId: number) => {
+export const getResolverAddress = (chainId: number | undefined) => {
   return chainId === 5
     ? '0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329'
     : '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41'

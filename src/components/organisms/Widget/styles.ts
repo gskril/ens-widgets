@@ -2,8 +2,19 @@ import styled, { css } from 'styled-components'
 import { Button as ThorinButton } from '@ensdomains/thorin'
 
 export const Button = styled(ThorinButton)(
-  ({ theme }) => css`
+  ({ theme, variant }) => css`
     border: none;
+
+    &:disabled {
+      ${variant === 'primary' && `background-color: ${theme.colors.accent};`}
+    }
+
+    ${variant === 'secondary' &&
+    css`
+      svg {
+        stroke: ${theme.colors.accent};
+      }
+    `}
   `
 )
 
