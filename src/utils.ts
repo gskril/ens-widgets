@@ -1,5 +1,4 @@
 import { Chain } from 'wagmi'
-import { randomBytes } from 'crypto'
 import { SECONDS_PER_YEAR } from './contracts'
 import { SendTransactionResult } from '@wagmi/core'
 
@@ -22,15 +21,6 @@ export const parseDuration = (duration: string): string => {
  */
 export const parseName = (name: string): string => {
   return name.endsWith('.eth') ? name.split('.')[0] : name
-}
-
-/**
- * Create a random bytes32 value and prepend '0x'
- */
-export const createSecret = (): `0x${string}` => {
-  const bytes = randomBytes(32).toString('hex')
-
-  return ('0x' + bytes) as `0x${string}`
 }
 
 export const getEtherscanLink = (
