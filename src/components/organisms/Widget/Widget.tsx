@@ -92,7 +92,21 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
 
   // First screen
   return (
-    <Card {...props}>
+    <Card
+      {...props}
+      as="form"
+      onSubmit={(e) => {
+        e.preventDefault()
+        console.log('submitting')
+
+        if (!isConnected) {
+          connectAction?.()
+          return
+        }
+
+        commit?.()
+      }}
+    >
       <Header />
 
       <Inputs>
@@ -115,34 +129,9 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
       </Inputs>
 
       {!isConnected ? (
-        <Button
-          shadowless
-          variant="secondary"
-          onClick={() => {
-            // TODO: add toast error if connectAction is undefined
-            connectAction?.()
-          }}
-        >
+        <Button shadowless variant="secondary" type="submit">
           Connect Wallet
         </Button>
-      ) : commitIsLoading ? (
-        <>
-          <Button
-            loading
-            variant="secondary"
-            onClick={() => {
-              // open link to etherscan in new tab
-              window.open(
-                `https://${chain?.id === 5 ? 'goerli.' : ''}etherscan.io/tx/${
-                  commitTx?.hash
-                }`,
-                '_blank'
-              )
-            }}
-          >
-            Transaction processing...
-          </Button>
-        </>
       ) : (
         <Button
           variant="primary"
@@ -155,7 +144,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
               </span>
             ) : null
           }
-          onClick={() => commit?.()}
+          type="submit"
         >
           Begin Registration
         </Button>

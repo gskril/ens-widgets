@@ -161,12 +161,14 @@ export const Input = ({
       {type === 'number' && (
         <Counters>
           <Counter
+            type="button"
             disabled={parseInt(value) < 2}
             onClick={() => handleDecrement()}
           >
             –
           </Counter>
           <Counter
+            type="button"
             disabled={parseInt(value) > 9}
             onClick={() => handleIncrement()}
           >
