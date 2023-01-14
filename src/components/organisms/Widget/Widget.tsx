@@ -110,7 +110,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
       address || '0x',
     ],
     overrides: {
-      value: parseEther((Number(rentEth)! * 1.05).toString()),
+      value: parseEther((Number(rentEth)! * 1.05).toFixed(12).toString()),
       gasLimit: BigNumber.from('300000'),
     },
     enabled: timer < 5,
