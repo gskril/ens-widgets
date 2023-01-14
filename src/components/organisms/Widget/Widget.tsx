@@ -4,6 +4,8 @@ import React from 'react'
 import { Button, Card, Inputs } from './styles'
 import { Header } from '../Header'
 import { Input } from '../../atoms/Input'
+import { useCost } from '../../../hooks/useCost'
+import useDebounce from '../../../hooks/useDebounce'
 
 interface WidgetProps {
   connectAction: (() => void) | undefined
@@ -11,12 +13,17 @@ interface WidgetProps {
 
 const Widget = ({ connectAction, ...props }: WidgetProps) => {
   const [name, setName] = React.useState<string>('')
+  const debouncedName = useDebounce<string>(name, 500)
   const [duration, setDuration] = React.useState<string>('1 year')
 
   const [mounted, setMounted] = React.useState<boolean>(false)
   React.useEffect(() => setMounted(true), [])
 
   const { isConnected } = useAccount()
+  const { cost, isLoading: costIsLoading } = useCost({
+    name: debouncedName,
+    duration,
+  })
 
   if (!mounted) return null
 
@@ -55,7 +62,21 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
         </Button>
       )}
 
-      {isConnected && <Button variant="primary">Begin Registration</Button>}
+      {isConnected && (
+        <Button
+          variant="primary"
+          loading={costIsLoading}
+          suffix={
+            cost ? (
+              <span style={{ fontWeight: '300', opacity: '90%' }}>
+                ({cost})
+              </span>
+            ) : null
+          }
+        >
+          Begin Registration
+        </Button>
+      )}
     </Card>
   )
 }
