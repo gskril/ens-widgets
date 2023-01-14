@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers'
-import { parseDuration } from '../utils'
+import { parseDuration, parseName } from '../utils'
 import {
   REGISTRAR_ABI,
   REGISTRAR_ADDRESS,
@@ -33,7 +33,7 @@ export const useCost = ({
   const gasPrice = gasbest ? (gasbest.pending.fee as number) : null
   const ethPrice = gasbest ? (gasbest.ethPrice as number) : null
 
-  const name = _name.endsWith('.eth') ? _name.split('.')[0] : _name
+  const name = parseName(_name)
   const seconds = parseDuration(duration)
 
   const { data: rentPrice } = useContractRead({

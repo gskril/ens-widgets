@@ -1,5 +1,6 @@
+import { CrossIcon, CheckIcon } from './Icons'
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 const InputWrapper = styled.div(
   ({ theme }) => css`
@@ -75,10 +76,34 @@ const Counter = styled.button(
     font-size: ${theme.fontSizes.large};
     color: ${theme.colors.white};
     line-height: 1;
+    transition: all 0.1s ease-in-out;
 
     &:disabled {
       background-color: ${theme.colors.accentSecondary};
     }
+  `
+)
+
+interface ValidationIconProps {
+  theme: DefaultTheme
+  isValid?: boolean | undefined
+}
+
+const ValidationIconWrapper = styled.div(
+  ({ theme, isValid }: ValidationIconProps) => css`
+    display: flex;
+    padding: 0.1875rem;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: ${theme.space[4]};
+    bottom: ${theme.space[5]};
+    width: ${theme.space[4]};
+    height: ${theme.space[4]};
+    border-radius: ${theme.radii.full};
+    background-color: ${isValid ? theme.colors.green : theme.colors.red};
+    color: ${theme.colors.white};
+    transition: background-color 0.1s ease-in-out;
   `
 )
 
@@ -88,6 +113,7 @@ interface InputProps {
   placeholder: string
   value: string
   setValue: React.Dispatch<React.SetStateAction<string>>
+  isValid?: boolean | undefined
 }
 
 export const Input = ({
@@ -96,6 +122,7 @@ export const Input = ({
   placeholder,
   value,
   setValue,
+  isValid,
   ...props
 }: InputProps) => {
   const handleIncrement = () => {
@@ -124,6 +151,12 @@ export const Input = ({
         onChange={(e) => setValue(e.target.value)}
         disabled={type === 'number'}
       />
+
+      {type === 'text' && isValid !== undefined && (
+        <ValidationIconWrapper isValid={isValid}>
+          {isValid ? <CheckIcon /> : <CrossIcon />}
+        </ValidationIconWrapper>
+      )}
 
       {type === 'number' && (
         <Counters>

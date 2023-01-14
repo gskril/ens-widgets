@@ -9,16 +9,17 @@ import {
 import React from 'react'
 
 import { Button, Card, Inputs } from './styles'
-import { Header } from '../Header'
-import { Input } from '../../atoms/Input'
-import { useCost } from '../../../hooks/useCost'
-import useDebounce from '../../../hooks/useDebounce'
 import {
   getResolverAddress,
   REGISTRAR_ABI,
   REGISTRAR_ADDRESS,
 } from '../../../contracts'
+import { Header } from '../Header'
+import { Input } from '../../atoms/Input'
+import { parseName } from '../../../utils'
+import { useCost } from '../../../hooks/useCost'
 import { useCreateSecret } from '../../../hooks/useCreateSecret'
+import useDebounce from '../../../hooks/useDebounce'
 
 interface WidgetProps {
   connectAction: (() => void) | undefined
@@ -44,6 +45,14 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
 
   const secret = useCreateSecret()
   const resolver = getResolverAddress(chain?.id)
+
+  const { data: isAvailable } = useContractRead({
+    address: REGISTRAR_ADDRESS,
+    abi: REGISTRAR_ABI,
+    functionName: 'available',
+    args: debouncedName ? [parseName(debouncedName)] : undefined,
+    enabled: !!debouncedName,
+  })
 
   const { data: commitment } = useContractRead({
     address: REGISTRAR_ADDRESS,
@@ -77,7 +86,6 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
         <p>Made it to step 2!</p>
         {commitIsSuccess && <p>Success!</p>}
         {commitIsError && <p>Error :/</p>}
-        {commitment}
       </Card>
     )
   }
@@ -94,6 +102,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
           placeholder="nick.eth"
           value={name}
           setValue={setName}
+          isValid={isAvailable}
         />
 
         <Input
@@ -137,7 +146,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
       ) : (
         <Button
           variant="primary"
-          disabled={!commit}
+          disabled={!commit || !isAvailable}
           loading={costIsLoading}
           suffix={
             cost ? (
@@ -151,7 +160,6 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
           Begin Registration
         </Button>
       )}
-      {commitment}
     </Card>
   )
 }

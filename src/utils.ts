@@ -14,6 +14,15 @@ export const parseDuration = (duration: string): string => {
 }
 
 /**
+ * Parses a name and returns a string of the name without the .eth suffix
+ * @param name ENS name with or without .eth suffix e.g. 'wagmi.eth' or 'wagmi'
+ * @returns string of name without .eth suffix e.g. 'wagmi'
+ */
+export const parseName = (name: string): string => {
+  return name.endsWith('.eth') ? name.split('.')[0] : name
+}
+
+/**
  * Create a random bytes32 value and prepend '0x'
  */
 export const createSecret = (): `0x${string}` => {
