@@ -14,6 +14,11 @@ export const Button = styled(ThorinButton)(
       svg {
         stroke: ${theme.colors.accent};
       }
+
+      &:disabled {
+        color: ${theme.colors.accent};
+        background-color: ${theme.colors.accentSecondaryHover};
+      }
     `}
   `
 )

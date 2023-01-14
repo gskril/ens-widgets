@@ -15,6 +15,7 @@ interface Cost {
 }
 
 interface CostReturn {
+  rentEth: string | null
   cost: string | null
   isLoading: boolean
 }
@@ -51,6 +52,7 @@ export const useCost = ({
   const finalCostUSD = ethPrice ? (finalCostEth * ethPrice).toFixed(2) : null
 
   return {
+    rentEth: rentPriceInEth,
     cost: finalCostUSD ? `$${finalCostUSD.toString()}` : null,
     isLoading: enabled && (!rentPriceInEth || !gasCostInEth || !finalCostEth),
   }

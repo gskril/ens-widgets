@@ -6,9 +6,11 @@ import {
   useWaitForTransaction,
   useContractRead,
 } from 'wagmi'
+import { BigNumber } from 'ethers'
 import React from 'react'
 
 import { Button, Card, Inputs } from './styles'
+import { getEtherscanLink, parseDuration, parseName } from '../../../utils'
 import {
   getResolverAddress,
   REGISTRAR_ABI,
@@ -16,11 +18,11 @@ import {
 } from '../../../contracts'
 import { Header } from '../Header'
 import { Input } from '../../atoms/Input'
-import { parseName } from '../../../utils'
+import { Rows } from '../../atoms/Row'
 import { useCost } from '../../../hooks/useCost'
 import { useCreateSecret } from '../../../hooks/useCreateSecret'
 import useDebounce from '../../../hooks/useDebounce'
-import { Rows } from '../../atoms/Row'
+import { parseEther } from 'ethers/lib/utils.js'
 
 interface WidgetProps {
   connectAction: (() => void) | undefined
@@ -38,7 +40,11 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
 
   const { chain } = useNetwork()
   const { address, isConnected } = useAccount()
-  const { cost, isLoading: costIsLoading } = useCost({
+  const {
+    cost,
+    rentEth,
+    isLoading: costIsLoading,
+  } = useCost({
     name: debouncedName,
     duration: debouncedDuration,
     isConnected,
@@ -63,7 +69,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     enabled: !!name && !!address,
   })
 
-  const { config } = usePrepareContractWrite({
+  const { config: commitConfig } = usePrepareContractWrite({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'commit',
@@ -71,24 +77,72 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     enabled: !!commitment,
   })
 
-  const { data: commitTx, write: commit } = useContractWrite(config)
+  const { data: commitTx, write: commit } = useContractWrite(commitConfig)
   const {
     isSuccess: commitIsSuccess,
     isError: commitIsError,
     isLoading: commitIsLoading,
   } = useWaitForTransaction(commitTx)
 
+  const [timer, setTimer] = React.useState<number>(60)
+
+  // Once commitIsSuccess is true for the first time, countdown to 0
+  React.useEffect(() => {
+    if (commitIsSuccess && timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prev) => prev - 1)
+      }, 1000)
+
+      return () => clearInterval(interval)
+    }
+  }, [commitIsSuccess])
+
+  const { config: registerConfig } = usePrepareContractWrite({
+    address: REGISTRAR_ADDRESS,
+    abi: REGISTRAR_ABI,
+    functionName: 'registerWithConfig',
+    args: [
+      parseName(name),
+      address || '0x',
+      parseDuration(duration) as unknown as BigNumber,
+      secret,
+      resolver,
+      address || '0x',
+    ],
+    overrides: {
+      value: parseEther((Number(rentEth)! * 1.05).toString()),
+      gasLimit: BigNumber.from('300000'),
+    },
+    enabled: timer < 5,
+  })
+
+  const { data: registerTx, write: register } = useContractWrite(registerConfig)
+  const {
+    isSuccess: registerIsSuccess,
+    isError: registerIsError,
+    isLoading: registerIsLoading,
+  } = useWaitForTransaction(registerTx)
+
   if (!mounted) return null
+
+  // Third screen - registration has completed
+  if (registerIsSuccess) {
+    return (
+      <Card {...props}>
+        <p>Registration success!</p>
+      </Card>
+    )
+  }
 
   // Second screen - registration has began
   if (commitTx) {
     const rowData = [
-      { name: 'Name', value: debouncedName },
+      { name: 'Name', value: debouncedName + '.eth' },
       { name: 'Duration', value: debouncedDuration },
     ]
 
     if (cost) {
-      rowData.push({ name: 'Cost', value: cost })
+      rowData.push({ name: 'Estimated Cost', value: cost })
     }
 
     return (
@@ -97,26 +151,50 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
 
         <Rows data={rowData} />
 
-        {commitIsLoading && (
+        {registerIsError ? (
+          // Show registration error message
+          <p>Registration failed</p>
+        ) : registerIsLoading ? (
+          // Show etherscan link for registration
           <Button
             loading
             shadowless
             variant="secondary"
             onClick={() => {
-              // open link to etherscan in new tab
-              window.open(
-                `https://${chain?.id === 5 ? 'goerli.' : ''}etherscan.io/tx/${
-                  commitTx?.hash
-                }`,
-                '_blank'
-              )
+              window.open(getEtherscanLink(registerTx, chain), '_blank')
             }}
           >
             Transaction processing...
           </Button>
+        ) : commitIsSuccess && timer < 1 ? (
+          // Show registerWithConfig button
+          <Button
+            variant="primary"
+            onClick={() => register?.()}
+            disabled={!register}
+          >
+            Complete Registration
+          </Button>
+        ) : commitIsSuccess && timer > 0 ? (
+          // Show countdown
+          <Button variant="secondary" disabled shadowless>
+            Waiting... {timer}
+          </Button>
+        ) : commitIsLoading ? (
+          // Show etherscan link for commit
+          <Button
+            loading
+            shadowless
+            variant="secondary"
+            onClick={() => {
+              window.open(getEtherscanLink(commitTx, chain), '_blank')
+            }}
+          >
+            Transaction processing...
+          </Button>
+        ) : (
+          <p>Error :/</p>
         )}
-        {commitIsSuccess && <p>Success!</p>}
-        {commitIsError && <p>Error :/</p>}
       </Card>
     )
   }
@@ -128,7 +206,6 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
       as="form"
       onSubmit={(e) => {
         e.preventDefault()
-        console.log('submitting')
 
         if (!isConnected) {
           connectAction?.()

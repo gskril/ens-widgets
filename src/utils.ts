@@ -1,5 +1,7 @@
+import { Chain } from 'wagmi'
 import { randomBytes } from 'crypto'
 import { SECONDS_PER_YEAR } from './contracts'
+import { SendTransactionResult } from '@wagmi/core'
 
 /**
  * Parses a string of years and returns a string of seconds
@@ -29,4 +31,13 @@ export const createSecret = (): `0x${string}` => {
   const bytes = randomBytes(32).toString('hex')
 
   return ('0x' + bytes) as `0x${string}`
+}
+
+export const getEtherscanLink = (
+  tx: SendTransactionResult | undefined,
+  chain: Chain | undefined
+) => {
+  return `https://${chain?.id === 5 ? 'goerli.' : ''}etherscan.io/tx/${
+    tx?.hash
+  }`
 }
