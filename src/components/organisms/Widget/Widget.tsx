@@ -7,7 +7,7 @@ import {
   useContractRead,
 } from 'wagmi'
 import { BigNumber } from 'ethers'
-import { Helper } from '@ensdomains/thorin'
+import { Helper, Typography } from '@ensdomains/thorin'
 import React from 'react'
 
 import { Button, Card, Inputs } from './styles'
@@ -71,7 +71,11 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     enabled: !!debouncedName && !!address,
   })
 
-  const { config: commitConfig } = usePrepareContractWrite({
+  const {
+    config: commitConfig,
+    isLoading: commitConfigIsLoading,
+    isError: commitConfigIsError,
+  } = usePrepareContractWrite({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'commit',
@@ -79,7 +83,12 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     enabled: !!commitment,
   })
 
-  const { data: commitTx, write: commit } = useContractWrite(commitConfig)
+  const {
+    data: commitTx,
+    write: commit,
+    isLoading: commitTxIsLoading,
+    isError: commitTxIsError,
+  } = useContractWrite(commitConfig)
   const {
     isSuccess: commitIsSuccess,
     isError: commitIsError,
@@ -238,7 +247,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
         />
       </Inputs>
 
-      {isAvailableError || isCommitmentError ? (
+      {isAvailableError || isCommitmentError || commitConfigIsError ? (
         <Helper type="error">
           <div>Unable to read from ENS Registrar</div>
         </Helper>
@@ -247,21 +256,45 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
           Connect Wallet
         </Button>
       ) : (
-        <Button
-          variant="primary"
-          disabled={!commit || !isAvailable}
-          loading={costIsLoading && !costIsError}
-          suffix={
-            cost ? (
-              <span style={{ fontWeight: '300', opacity: '90%' }}>
-                ({cost})
-              </span>
-            ) : null
-          }
-          type="submit"
-        >
-          Begin Registration
-        </Button>
+        <>
+          <Button
+            variant="primary"
+            disabled={!commit || !isAvailable}
+            loading={(costIsLoading && !costIsError) || commitConfigIsLoading}
+            suffix={
+              cost ? (
+                <span style={{ fontWeight: '300', opacity: '90%' }}>
+                  ({cost})
+                </span>
+              ) : null
+            }
+            type="submit"
+          >
+            Begin Registration
+          </Button>
+
+          {commitTxIsError && (
+            <Typography
+              style={{
+                marginTop: '-0.5rem',
+                textAlign: 'center',
+              }}
+            >
+              Error submitting transaction
+            </Typography>
+          )}
+
+          {commitTxIsLoading && (
+            <Typography
+              style={{
+                marginTop: '-0.5rem',
+                textAlign: 'center',
+              }}
+            >
+              Accept transaction in wallet
+            </Typography>
+          )}
+        </>
       )}
     </Card>
   )
