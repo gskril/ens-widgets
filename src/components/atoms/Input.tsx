@@ -1,4 +1,5 @@
 import { CrossIcon, CheckIcon } from './Icons'
+import { mq } from '@ensdomains/thorin'
 import React from 'react'
 import styled, { css, DefaultTheme } from 'styled-components'
 
@@ -14,6 +15,10 @@ const InputWrapper = styled.div(
     background-color: ${theme.colors.white};
     border-radius: ${theme.radii.medium};
     box-shadow: 1px 1px 6px rgba(66, 124, 211, 0.1);
+
+    ${mq.xs.max(css`
+      gap: ${theme.space[2]};
+    `)}
   `
 )
 
@@ -50,6 +55,10 @@ const StyledInput = styled.input(
       color: inherit;
       background-color: inherit;
     }
+
+    ${mq.xs.max(css`
+      font-size: 1.5rem;
+    `)}
   `
 )
 

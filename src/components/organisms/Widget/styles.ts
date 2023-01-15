@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { Button as ThorinButton } from '@ensdomains/thorin'
+import { Button as ThorinButton, mq } from '@ensdomains/thorin'
 
 export const Button = styled(ThorinButton)(
   ({ theme, variant }) => css`
@@ -34,6 +34,11 @@ export const Card = styled.div(
     box-shadow: ${theme.boxShadows.primary};
     border-radius: ${theme.radii.large};
     padding: 1.25rem;
+
+    ${mq.xs.max(css`
+      gap: ${theme.space[3]};
+      padding: ${theme.space[3]};
+    `)}
   `
 )
 
@@ -43,5 +48,9 @@ export const Inputs = styled.div(
     display: flex;
     flex-direction: column;
     gap: ${theme.space[4]};
+
+    ${mq.xs.max(css`
+      gap: ${theme.space[3]};
+    `)}
   `
 )
