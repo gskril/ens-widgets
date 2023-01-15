@@ -7,7 +7,7 @@ import {
   useContractRead,
 } from 'wagmi'
 import { BigNumber } from 'ethers'
-import { Helper, Typography } from '@ensdomains/thorin'
+import { Helper } from '@ensdomains/thorin'
 import React from 'react'
 
 import { Button, Card, Inputs } from './styles'
@@ -67,7 +67,13 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'makeCommitmentWithConfig',
-    args: [debouncedName, address || '0x', secret, resolver, address || '0x'],
+    args: [
+      parseName(debouncedName),
+      address || '0x',
+      secret,
+      resolver,
+      address || '0x',
+    ],
     enabled: !!debouncedName && !!address,
   })
 
@@ -127,17 +133,23 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     enabled: timer < 5,
   })
 
-  const { data: registerTx, write: register } = useContractWrite(registerConfig)
   const {
-    isSuccess: registerIsSuccess,
+    data: registerTx,
+    write: register,
     isError: registerIsError,
     isLoading: registerIsLoading,
+  } = useContractWrite(registerConfig)
+
+  const {
+    isSuccess: registerTxIsSuccess,
+    isError: registerTxIsError,
+    isLoading: registerTxIsLoading,
   } = useWaitForTransaction(registerTx)
 
   if (!mounted) return null
 
   // Third screen - registration has completed
-  if (registerIsSuccess) {
+  if (registerTxIsSuccess) {
     return (
       <Card {...props}>
         <p>Registration success!</p>
@@ -148,7 +160,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
   // Second screen - registration has began
   if (commitTx) {
     const rowData = [
-      { name: 'Name', value: debouncedName + '.eth' },
+      { name: 'Name', value: parseName(debouncedName) + '.eth' },
       { name: 'Duration', value: debouncedDuration },
     ]
 
@@ -162,10 +174,10 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
 
         <Rows data={rowData} />
 
-        {registerIsError ? (
+        {registerTxIsError ? (
           // Show registration error message
           <p>Registration failed</p>
-        ) : registerIsLoading ? (
+        ) : registerTxIsLoading ? (
           // Show etherscan link for registration
           <Button
             loading
@@ -181,10 +193,16 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
           // Show registerWithConfig button
           <Button
             variant="primary"
+            loading={registerIsLoading}
+            tone={registerIsError ? 'red' : 'accent'}
             onClick={() => register?.()}
             disabled={!register}
           >
-            Complete Registration
+            {registerIsError
+              ? 'Error Sending Transaction'
+              : registerIsLoading
+              ? 'Confirm in Wallet'
+              : 'Complete Registration'}
           </Button>
         ) : commitIsSuccess && timer > 0 ? (
           // Show countdown
@@ -259,10 +277,15 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
         <>
           <Button
             variant="primary"
+            tone={commitTxIsError ? 'red' : 'accent'}
             disabled={!commit || !isAvailable}
-            loading={(costIsLoading && !costIsError) || commitConfigIsLoading}
+            loading={
+              (costIsLoading && !costIsError) ||
+              commitConfigIsLoading ||
+              commitTxIsLoading
+            }
             suffix={
-              cost ? (
+              cost && !commitTxIsError ? (
                 <span style={{ fontWeight: '300', opacity: '90%' }}>
                   ({cost})
                 </span>
@@ -270,30 +293,12 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
             }
             type="submit"
           >
-            Begin Registration
+            {commitTxIsError
+              ? 'Error Sending Transaction'
+              : commitTxIsLoading
+              ? 'Confirm in Wallet'
+              : 'Begin Registration'}
           </Button>
-
-          {commitTxIsError && (
-            <Typography
-              style={{
-                marginTop: '-0.5rem',
-                textAlign: 'center',
-              }}
-            >
-              Error submitting transaction
-            </Typography>
-          )}
-
-          {commitTxIsLoading && (
-            <Typography
-              style={{
-                marginTop: '-0.5rem',
-                textAlign: 'center',
-              }}
-            >
-              Accept transaction in wallet
-            </Typography>
-          )}
         </>
       )}
     </Card>
