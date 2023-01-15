@@ -23,6 +23,7 @@ const Label = styled.label(
     font-family: ${theme.fonts.sans};
     font-weight: ${theme.fontWeights.normal};
     color: ${theme.colors.lightGrey};
+    text-align: left;
   `
 )
 const StyledInput = styled.input(
@@ -77,6 +78,10 @@ const Counter = styled.button(
     color: ${theme.colors.white};
     line-height: 1;
     transition: all 0.1s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+    }
 
     &:disabled {
       background-color: ${theme.colors.accentSecondary};
