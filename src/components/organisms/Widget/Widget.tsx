@@ -29,11 +29,13 @@ import useDebounce from '../../../hooks/useDebounce'
 interface WidgetProps {
   connectAction: (() => void) | undefined
   containerShadowless?: true
+  debug?: true
 }
 
 const Widget = ({
   connectAction,
   containerShadowless,
+  debug,
   ...props
 }: WidgetProps) => {
   const [name, setName] = React.useState<string>('')
@@ -61,7 +63,11 @@ const Widget = ({
   const secret = useCreateSecret()
   const resolver = getResolverAddress(chain?.id)
 
-  const { data: isAvailable, isError: isAvailableError } = useContractRead({
+  const {
+    data: isAvailable,
+    isError: isAvailableError,
+    isLoading: isAvailableLoading,
+  } = useContractRead({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'available',
@@ -80,7 +86,7 @@ const Widget = ({
       resolver,
       address || '0x',
     ],
-    enabled: !!debouncedName && !!address,
+    enabled: !!debouncedName && !!address && !!isAvailable,
   })
 
   const {
@@ -101,6 +107,7 @@ const Widget = ({
     isLoading: commitTxIsLoading,
     isError: commitTxIsError,
   } = useContractWrite(commitConfig)
+
   const {
     isSuccess: commitIsSuccess,
     isError: commitIsError,
@@ -271,6 +278,20 @@ const Widget = ({
           setValue={setDuration}
         />
       </Inputs>
+
+      {debug && (
+        <>
+          <p>costIsError: {costIsLoading.toString()}</p>
+          <p>costIsLoading: {costIsLoading.toString()}</p>
+          <p>isAvailableError: {isAvailableError.toString()}</p>
+          <p>isAvailableLoading: {isAvailableLoading.toString()}</p>
+          <p>commitConfigIsError: {commitConfigIsError.toString()}</p>
+          <p>commitConfigIsLoading: {commitConfigIsLoading.toString()}</p>
+          <p>isCommitmentError: {isCommitmentError.toString()}</p>
+          <p>commitIsLoading: {commitTxIsLoading.toString()}</p>
+          <p>commitTxIsError: {commitTxIsError.toString()}</p>
+        </>
+      )}
 
       {isAvailableError || isCommitmentError || commitConfigIsError ? (
         <Helper type="error">

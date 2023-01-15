@@ -17,6 +17,7 @@ import { providers } from 'ethers'
 
 interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   connectAction: (() => void) | undefined
+  debug?: true
   shadowless?: true
   wagmiClientConfig: {
     autoConnect?: boolean
@@ -42,6 +43,7 @@ interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const Widget = ({
   connectAction,
+  debug,
   shadowless: containerShadowless,
   wagmiClientConfig,
   ...props
@@ -57,6 +59,7 @@ export const Widget = ({
         <WidgetContent
           connectAction={connectAction}
           containerShadowless={containerShadowless}
+          debug={debug}
           {...props}
         />
       </ThemeProvider>

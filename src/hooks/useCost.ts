@@ -55,7 +55,10 @@ export const useCost = ({
   return {
     rentEth: rentPriceInEth,
     cost: finalCostUSD ? `$${finalCostUSD.toString()}` : null,
-    isLoading: enabled && (!rentPriceInEth || !gasCostInEth || !finalCostEth),
+    isLoading:
+      enabled &&
+      !isRentPriceError &&
+      (!rentPriceInEth || !gasCostInEth || !finalCostEth),
     isError: isRentPriceError,
   }
 }
