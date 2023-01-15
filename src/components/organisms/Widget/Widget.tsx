@@ -8,6 +8,7 @@ import {
 } from 'wagmi'
 import { BigNumber } from 'ethers'
 import { Helper } from '@ensdomains/thorin'
+import { parseEther } from 'ethers/lib/utils.js'
 import React from 'react'
 
 import { Button, Card, Inputs } from './styles'
@@ -19,11 +20,11 @@ import {
 } from '../../../contracts'
 import { Header } from '../Header'
 import { Input } from '../../atoms/Input'
+import { RegistrationSuccess } from '../../../screens/RegistrationSuccess'
 import { Rows } from '../../atoms/Row'
 import { useCost } from '../../../hooks/useCost'
 import { useCreateSecret } from '../../../hooks/useCreateSecret'
 import useDebounce from '../../../hooks/useDebounce'
-import { parseEther } from 'ethers/lib/utils.js'
 
 interface WidgetProps {
   connectAction: (() => void) | undefined
@@ -157,7 +158,7 @@ const Widget = ({
   if (registerTxIsSuccess) {
     return (
       <Card {...props} shadowless={containerShadowless}>
-        <p>Registration success!</p>
+        <RegistrationSuccess address={address!} name={parseName(name)} />
       </Card>
     )
   }
