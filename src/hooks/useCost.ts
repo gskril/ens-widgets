@@ -18,6 +18,7 @@ interface CostReturn {
   rentEth: string | null
   cost: string | null
   isLoading: boolean
+  isError: boolean
 }
 
 export const useCost = ({
@@ -37,7 +38,7 @@ export const useCost = ({
   const name = parseName(_name)
   const seconds = parseDuration(duration)
 
-  const { data: rentPrice } = useContractRead({
+  const { data: rentPrice, isError: isRentPriceError } = useContractRead({
     abi: REGISTRAR_ABI,
     address: REGISTRAR_ADDRESS,
     functionName: 'rentPrice',
@@ -55,5 +56,6 @@ export const useCost = ({
     rentEth: rentPriceInEth,
     cost: finalCostUSD ? `$${finalCostUSD.toString()}` : null,
     isLoading: enabled && (!rentPriceInEth || !gasCostInEth || !finalCostEth),
+    isError: isRentPriceError,
   }
 }

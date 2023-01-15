@@ -7,6 +7,7 @@ import {
   useContractRead,
 } from 'wagmi'
 import { BigNumber } from 'ethers'
+import { Helper } from '@ensdomains/thorin'
 import React from 'react'
 
 import { Button, Card, Inputs } from './styles'
@@ -43,6 +44,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
   const {
     cost,
     rentEth,
+    isError: costIsError,
     isLoading: costIsLoading,
   } = useCost({
     name: debouncedName,
@@ -53,20 +55,20 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
   const secret = useCreateSecret()
   const resolver = getResolverAddress(chain?.id)
 
-  const { data: isAvailable } = useContractRead({
+  const { data: isAvailable, isError: isAvailableError } = useContractRead({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'available',
     args: debouncedName ? [parseName(debouncedName)] : undefined,
-    enabled: !!debouncedName,
+    enabled: !!debouncedName && !!address,
   })
 
-  const { data: commitment } = useContractRead({
+  const { data: commitment, isError: isCommitmentError } = useContractRead({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'makeCommitmentWithConfig',
     args: [debouncedName, address || '0x', secret, resolver, address || '0x'],
-    enabled: !!name && !!address,
+    enabled: !!debouncedName && !!address,
   })
 
   const { config: commitConfig } = usePrepareContractWrite({
@@ -236,7 +238,11 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
         />
       </Inputs>
 
-      {!isConnected ? (
+      {isAvailableError || isCommitmentError ? (
+        <Helper type="error">
+          <div>Unable to read from ENS Registrar</div>
+        </Helper>
+      ) : !isConnected ? (
         <Button shadowless variant="secondary" type="submit">
           Connect Wallet
         </Button>
@@ -244,7 +250,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
         <Button
           variant="primary"
           disabled={!commit || !isAvailable}
-          loading={costIsLoading}
+          loading={costIsLoading && !costIsError}
           suffix={
             cost ? (
               <span style={{ fontWeight: '300', opacity: '90%' }}>
