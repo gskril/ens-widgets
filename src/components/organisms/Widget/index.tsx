@@ -17,6 +17,7 @@ import { providers } from 'ethers'
 
 interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   connectAction: (() => void) | undefined
+  shadowless?: true
   wagmiClientConfig: {
     autoConnect?: boolean
     connectors?: () => Connector<any, any, any>[]
@@ -34,11 +35,14 @@ interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Widget that allows users to register ENS names inline
+ * Widget that allows users to register ENS names inline.
+ * @param connectAction Hook that gets called when the user clicks the connect button.
+ * @param shadowless Whether or not to render a box shadow around the widget. Defaults to false (showing the shadow).
  * @param wagmiClientConfig Config object that gets passed into wagmi's `createClient()`
  */
 export const Widget = ({
   connectAction,
+  shadowless: containerShadowless,
   wagmiClientConfig,
   ...props
 }: WidgetProps) => {
@@ -50,7 +54,11 @@ export const Widget = ({
     <WagmiConfig client={client}>
       <ThemeProvider theme={theme}>
         <ThorinGlobalStyles />
-        <WidgetContent connectAction={connectAction} {...props} />
+        <WidgetContent
+          connectAction={connectAction}
+          containerShadowless={containerShadowless}
+          {...props}
+        />
       </ThemeProvider>
     </WagmiConfig>
   )

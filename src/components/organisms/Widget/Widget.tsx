@@ -27,9 +27,14 @@ import { parseEther } from 'ethers/lib/utils.js'
 
 interface WidgetProps {
   connectAction: (() => void) | undefined
+  containerShadowless?: true
 }
 
-const Widget = ({ connectAction, ...props }: WidgetProps) => {
+const Widget = ({
+  connectAction,
+  containerShadowless,
+  ...props
+}: WidgetProps) => {
   const [name, setName] = React.useState<string>('')
   const [duration, setDuration] = React.useState<string>('1 year')
 
@@ -151,7 +156,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
   // Third screen - registration has completed
   if (registerTxIsSuccess) {
     return (
-      <Card {...props}>
+      <Card {...props} shadowless={containerShadowless}>
         <p>Registration success!</p>
       </Card>
     )
@@ -169,7 +174,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     }
 
     return (
-      <Card {...props}>
+      <Card {...props} shadowless={containerShadowless}>
         <Header />
 
         <Rows data={rowData} />
@@ -233,6 +238,7 @@ const Widget = ({ connectAction, ...props }: WidgetProps) => {
     <Card
       {...props}
       as="form"
+      shadowless={containerShadowless}
       onSubmit={(e) => {
         e.preventDefault()
 

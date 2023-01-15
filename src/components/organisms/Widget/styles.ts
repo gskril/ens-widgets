@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 import { Button as ThorinButton, mq } from '@ensdomains/thorin'
 
 export const Button = styled(ThorinButton)(
@@ -23,8 +23,13 @@ export const Button = styled(ThorinButton)(
   `
 )
 
+interface CardProps {
+  theme: DefaultTheme
+  shadowless?: true
+}
+
 export const Card = styled.div(
-  ({ theme }) => css`
+  ({ theme, shadowless }: CardProps) => css`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -34,6 +39,11 @@ export const Card = styled.div(
     box-shadow: ${theme.boxShadows.primary};
     border-radius: ${theme.radii.large};
     padding: 1.25rem;
+
+    ${shadowless &&
+    css`
+      box-shadow: none;
+    `}
 
     ${mq.xs.max(css`
       gap: ${theme.space[3]};
