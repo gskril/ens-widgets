@@ -67,7 +67,7 @@ export const RegistrationSuccess = ({
 
       <div>
         <Typography as="p">
-          {name} will now resolve to {truncateAddress(address)} across web3.
+          {name}.eth will now resolve to {truncateAddress(address)} across web3.
         </Typography>
 
         <Typography as="p">
