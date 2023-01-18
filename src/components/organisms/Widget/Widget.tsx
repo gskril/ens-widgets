@@ -29,13 +29,11 @@ import useDebounce from '../../../hooks/useDebounce'
 interface WidgetProps {
   connectAction: (() => void) | undefined
   containerShadowless?: true
-  debug?: true
 }
 
 const Widget = ({
   connectAction,
   containerShadowless,
-  debug,
   ...props
 }: WidgetProps) => {
   const [name, setName] = React.useState<string>('')
@@ -49,11 +47,12 @@ const Widget = ({
 
   const { chain } = useNetwork()
   const { address, isConnected } = useAccount()
+
   const {
     cost,
     rentEth,
-    isError: costIsError,
-    isLoading: costIsLoading,
+    isError: isCostError,
+    isLoading: isCostLoading,
   } = useCost({
     name: debouncedName,
     duration: debouncedDuration,
@@ -63,11 +62,7 @@ const Widget = ({
   const secret = useCreateSecret()
   const resolver = getResolverAddress(chain?.id)
 
-  const {
-    data: isAvailable,
-    isError: isAvailableError,
-    isLoading: isAvailableLoading,
-  } = useContractRead({
+  const available = useContractRead({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'available',
@@ -75,7 +70,7 @@ const Widget = ({
     enabled: !!debouncedName && !!address,
   })
 
-  const { data: commitment, isError: isCommitmentError } = useContractRead({
+  const makeCommitment = useContractRead({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'makeCommitmentWithConfig',
@@ -86,48 +81,34 @@ const Widget = ({
       resolver,
       address || '0x',
     ],
-    enabled: !!debouncedName && !!address && !!isAvailable,
+    enabled: !!debouncedName && !!address && !!available.data,
   })
 
-  const {
-    config: commitConfig,
-    isLoading: commitConfigIsLoading,
-    isError: commitConfigIsError,
-  } = usePrepareContractWrite({
+  const prepareCommit = usePrepareContractWrite({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'commit',
-    args: [commitment!],
-    enabled: !!commitment,
+    args: [makeCommitment.data!],
+    enabled: !!makeCommitment.data,
   })
 
-  const {
-    data: commitTx,
-    write: commit,
-    isLoading: commitTxIsLoading,
-    isError: commitTxIsError,
-  } = useContractWrite(commitConfig)
-
-  const {
-    isSuccess: commitIsSuccess,
-    isError: commitIsError,
-    isLoading: commitIsLoading,
-  } = useWaitForTransaction(commitTx)
+  const commit = useContractWrite(prepareCommit.config)
+  const commitTx = useWaitForTransaction(commit.data)
 
   const [timer, setTimer] = React.useState<number>(60)
 
-  // Once commitIsSuccess is true for the first time, countdown to 0
+  // Once the commit is successful, start the countdown
   React.useEffect(() => {
-    if (commitIsSuccess && timer > 0) {
+    if (commitTx.isSuccess && timer > 0) {
       const interval = setInterval(() => {
         setTimer((prev) => prev - 1)
       }, 1000)
 
       return () => clearInterval(interval)
     }
-  }, [commitIsSuccess])
+  }, [commitTx.isSuccess])
 
-  const { config: registerConfig } = usePrepareContractWrite({
+  const prepareRegister = usePrepareContractWrite({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
     functionName: 'registerWithConfig',
@@ -146,23 +127,13 @@ const Widget = ({
     enabled: timer < 5,
   })
 
-  const {
-    data: registerTx,
-    write: register,
-    isError: registerIsError,
-    isLoading: registerIsLoading,
-  } = useContractWrite(registerConfig)
-
-  const {
-    isSuccess: registerTxIsSuccess,
-    isError: registerTxIsError,
-    isLoading: registerTxIsLoading,
-  } = useWaitForTransaction(registerTx)
+  const register = useContractWrite(prepareRegister.config)
+  const registerTx = useWaitForTransaction(register.data)
 
   if (!mounted) return null
 
   // Third screen - registration has completed
-  if (registerTxIsSuccess) {
+  if (registerTx.isSuccess) {
     return (
       <Card {...props} shadowless={containerShadowless}>
         <RegistrationSuccess address={address!} name={parseName(name)} />
@@ -171,7 +142,7 @@ const Widget = ({
   }
 
   // Second screen - registration has began
-  if (commitTx) {
+  if (commit.data) {
     const rowData = [
       { name: 'Name', value: parseName(debouncedName) + '.eth' },
       { name: 'Duration', value: debouncedDuration },
@@ -187,56 +158,54 @@ const Widget = ({
 
         <Rows data={rowData} />
 
-        {registerTxIsError ? (
+        {registerTx.isError ? (
           // Show registration error message
           <p>Registration failed</p>
-        ) : registerTxIsLoading ? (
+        ) : registerTx.isLoading ? (
           // Show etherscan link for registration
           <Button
             loading
             shadowless
             variant="secondary"
             onClick={() => {
-              window.open(getEtherscanLink(registerTx, chain), '_blank')
+              window.open(getEtherscanLink(register.data, chain), '_blank')
             }}
           >
             Transaction processing...
           </Button>
-        ) : commitIsSuccess && timer < 1 ? (
+        ) : commitTx.isSuccess && timer < 1 ? (
           // Show registerWithConfig button
           <Button
             variant="primary"
-            loading={registerIsLoading}
-            tone={registerIsError ? 'red' : 'accent'}
-            onClick={() => register?.()}
+            loading={register.isLoading}
+            tone={register.isError ? 'red' : 'accent'}
+            onClick={() => register.write?.()}
             disabled={!register}
           >
-            {registerIsError
+            {register.isError
               ? 'Error Sending Transaction'
-              : registerIsLoading
+              : register.isLoading
               ? 'Confirm in Wallet'
               : 'Complete Registration'}
           </Button>
-        ) : commitIsSuccess && timer > 0 ? (
+        ) : commitTx.isSuccess && timer > 0 ? (
           // Show countdown
           <Button variant="secondary" disabled shadowless>
             Waiting... {timer}
           </Button>
-        ) : commitIsLoading ? (
+        ) : commitTx.isLoading ? (
           // Show etherscan link for commit
           <Button
             loading
             shadowless
             variant="secondary"
             onClick={() => {
-              window.open(getEtherscanLink(commitTx, chain), '_blank')
+              window.open(getEtherscanLink(commit.data, chain), '_blank')
             }}
           >
             Transaction processing...
           </Button>
-        ) : (
-          <p>Error :/</p>
-        )}
+        ) : null}
       </Card>
     )
   }
@@ -255,7 +224,7 @@ const Widget = ({
           return
         }
 
-        commit?.()
+        commit.write?.()
       }}
     >
       <Header />
@@ -267,7 +236,7 @@ const Widget = ({
           placeholder="nick.eth"
           value={name}
           setValue={setName}
-          isValid={isAvailable}
+          isValid={available.data}
         />
 
         <Input
@@ -279,21 +248,7 @@ const Widget = ({
         />
       </Inputs>
 
-      {debug && (
-        <>
-          <p>costIsError: {costIsLoading.toString()}</p>
-          <p>costIsLoading: {costIsLoading.toString()}</p>
-          <p>isAvailableError: {isAvailableError.toString()}</p>
-          <p>isAvailableLoading: {isAvailableLoading.toString()}</p>
-          <p>commitConfigIsError: {commitConfigIsError.toString()}</p>
-          <p>commitConfigIsLoading: {commitConfigIsLoading.toString()}</p>
-          <p>isCommitmentError: {isCommitmentError.toString()}</p>
-          <p>commitIsLoading: {commitTxIsLoading.toString()}</p>
-          <p>commitTxIsError: {commitTxIsError.toString()}</p>
-        </>
-      )}
-
-      {isAvailableError || isCommitmentError || commitConfigIsError ? (
+      {available.isError || makeCommitment.isError || prepareCommit.isError ? (
         <Helper type="error">
           <div>Unable to read from ENS Registrar</div>
         </Helper>
@@ -305,15 +260,15 @@ const Widget = ({
         <>
           <Button
             variant="primary"
-            tone={commitTxIsError ? 'red' : 'accent'}
-            disabled={!commit || !isAvailable}
+            tone={commit.isError ? 'red' : 'accent'}
+            disabled={!commit || !available.data}
             loading={
-              (costIsLoading && !costIsError) ||
-              commitConfigIsLoading ||
-              commitTxIsLoading
+              (isCostLoading && !isCostError) ||
+              prepareCommit.isLoading ||
+              commit.isLoading
             }
             suffix={
-              cost && !commitTxIsError ? (
+              cost && !commit.isError ? (
                 <span style={{ fontWeight: '300', opacity: '90%' }}>
                   ({cost})
                 </span>
@@ -321,9 +276,9 @@ const Widget = ({
             }
             type="submit"
           >
-            {commitTxIsError
+            {commit.isError
               ? 'Error Sending Transaction'
-              : commitTxIsLoading
+              : commit.isLoading
               ? 'Confirm in Wallet'
               : 'Begin Registration'}
           </Button>

@@ -43,7 +43,6 @@ interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const Widget = ({
   connectAction,
-  debug,
   shadowless: containerShadowless,
   wagmiClientConfig,
   ...props
@@ -59,7 +58,6 @@ export const Widget = ({
         <WidgetContent
           connectAction={connectAction}
           containerShadowless={containerShadowless}
-          debug={debug}
           {...props}
         />
       </ThemeProvider>
