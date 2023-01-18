@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components'
 import { Link } from '../../../atoms/Link'
 import { Logo } from '../../../atoms/Icons'
 import { truncateAddress } from '../../../../utils'
+import { useAccount } from 'wagmi'
 
 const Container = styled.div(
   ({ theme }) => css`
@@ -47,14 +48,12 @@ const LogoWrapper = styled.div`
 `
 
 interface RegistrationSuccessProps {
-  address: string
   name: string
 }
 
-export const RegistrationSuccess = ({
-  address,
-  name,
-}: RegistrationSuccessProps) => {
+export const Success = ({ name }: RegistrationSuccessProps) => {
+  const { address } = useAccount()
+
   return (
     <Container>
       <div className="head">
@@ -66,9 +65,12 @@ export const RegistrationSuccess = ({
       </div>
 
       <div>
-        <Typography as="p">
-          {name}.eth will now resolve to {truncateAddress(address)} across web3.
-        </Typography>
+        {address && (
+          <Typography as="p">
+            {name}.eth will now resolve to {truncateAddress(address)} across
+            web3.
+          </Typography>
+        )}
 
         <Typography as="p">
           Configure your name further at{' '}

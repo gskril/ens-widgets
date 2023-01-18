@@ -24,12 +24,12 @@ export const parseName = (name: string): string => {
 }
 
 export const getEtherscanLink = (
-  tx: SendTransactionResult | undefined,
+  tx: SendTransactionResult | `0x${string}` | undefined,
   chain: Chain | undefined
 ) => {
-  return `https://${chain?.id === 5 ? 'goerli.' : ''}etherscan.io/tx/${
-    tx?.hash
-  }`
+  const hash = typeof tx === 'string' ? tx : tx?.hash
+
+  return `https://${chain?.id === 5 ? 'goerli.' : ''}etherscan.io/tx/${hash}`
 }
 
 export const truncateAddress = (address: string) => {

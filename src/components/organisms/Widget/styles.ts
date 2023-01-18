@@ -31,9 +31,6 @@ interface CardProps {
 export const Card = styled.div(
   ({ theme, shadowless }: CardProps) => css`
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space[4]};
     border: ${theme.borderWidths['0.375']} solid ${theme.colors.borderSecondary};
     background-color: #fafcff;
     box-shadow: ${theme.boxShadows.primary};
@@ -49,6 +46,15 @@ export const Card = styled.div(
       gap: ${theme.space[3]};
       padding: ${theme.space[3]};
     `)}
+  `
+)
+
+export const Container = styled.div(
+  ({ theme }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.space[4]};
   `
 )
 
