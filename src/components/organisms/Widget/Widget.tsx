@@ -20,7 +20,7 @@ import {
 } from '../../../contracts'
 import { Header } from '../Header'
 import { Input } from '../../atoms/Input'
-import { RegistrationSuccess } from '../../../screens/RegistrationSuccess'
+import { RegistrationSuccess } from './screens/RegistrationSuccess'
 import { Rows } from '../../atoms/Row'
 import { useCost } from '../../../hooks/useCost'
 import { useCreateSecret } from '../../../hooks/useCreateSecret'
