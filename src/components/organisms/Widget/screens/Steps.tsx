@@ -9,15 +9,17 @@ import {
 } from 'wagmi'
 import React from 'react'
 
-import { Button, Container } from '../styles'
+import { Button, Container, RegistrationSteps } from '../styles'
 import { getEtherscanLink, parseDuration, parseName } from '../../../../utils'
 import { Header } from '../../Header'
+import { Progress } from '../../../atoms/Progress'
 import {
   REGISTRAR_ABI,
   REGISTRAR_ADDRESS,
   getResolverAddress,
 } from '../../../../contracts'
 import { Rows } from '../../../atoms/Row'
+import { Stage } from '../../../atoms/Stage'
 import { useCost } from '../../../../hooks/useCost'
 
 interface StepsProps {
@@ -41,7 +43,8 @@ export const Steps = ({
     hash: commitHash,
   })
 
-  const [timer, setTimer] = React.useState<number>(60)
+  const timerStart = 60
+  const [timer, setTimer] = React.useState<number>(timerStart)
 
   const { cost, rentEth } = useCost({
     name,
@@ -103,13 +106,18 @@ export const Steps = ({
 
       <Rows data={rowData} />
 
+      <RegistrationSteps>
+        <Stage label="Commit" status={commitTx.status} />
+        <Progress percentage={100 - (timer / timerStart) * 100} />
+        <Stage label="Register" status={registerTx.status} />
+      </RegistrationSteps>
+
       {registerTx.isError ? (
         // Show registration error message
         <p>Registration failed</p>
       ) : registerTx.isLoading ? (
         // Show etherscan link for registration
         <Button
-          loading
           shadowless
           variant="secondary"
           onClick={() => {
@@ -136,12 +144,11 @@ export const Steps = ({
       ) : commitTx.isSuccess && timer > 0 ? (
         // Show countdown
         <Button variant="secondary" disabled shadowless>
-          Waiting... {timer}
+          Waiting...
         </Button>
-      ) : commitTx.isLoading ? (
+      ) : (
         // Show etherscan link for commit
         <Button
-          loading
           shadowless
           variant="secondary"
           onClick={() => {
@@ -150,7 +157,7 @@ export const Steps = ({
         >
           Transaction processing...
         </Button>
-      ) : null}
+      )}
     </Container>
   )
 }

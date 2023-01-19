@@ -70,3 +70,20 @@ export const Inputs = styled.div(
     `)}
   `
 )
+
+export const RegistrationSteps = styled.div(
+  ({ theme }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: ${theme.space[7]};
+    padding: 0 ${theme.space[4]};
+
+    ${mq.xs.max(css`
+      gap: ${theme.space[4]};
+      padding: 0;
+    `)}
+  `
+)
