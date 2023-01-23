@@ -8,7 +8,7 @@ import { useCreateSecret } from '../../../hooks/useCreateSecret'
 interface WidgetProps {
   connectAction: (() => void) | undefined
   containerShadowless?: true
-  trackingCode?: any
+  trackingCode?: string
 }
 
 const Widget = ({
