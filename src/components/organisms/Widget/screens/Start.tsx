@@ -46,6 +46,9 @@ export const Start = ({
   const { address, isConnected } = useAccount()
   const resolver = getResolverAddress(chain?.id)
 
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => setIsMounted(true), [])
+
   const {
     cost,
     isError: isCostError,
@@ -133,7 +136,7 @@ export const Start = ({
         <Helper type="error">
           <div>Unable to read from ENS Registrar</div>
         </Helper>
-      ) : !isConnected ? (
+      ) : !isConnected || !isMounted ? (
         <Button shadowless variant="secondary" type="submit">
           Connect Wallet
         </Button>

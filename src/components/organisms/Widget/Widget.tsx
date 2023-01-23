@@ -23,10 +23,6 @@ const Widget = ({
   const [isRegistrationSuccess, setIsRegistrationSuccess] = React.useState<boolean>(false)
   const [commitHash, setCommitHash] = React.useState<`0x${string}` | null>(null)
 
-  const [mounted, setMounted] = React.useState<boolean>(false)
-  React.useEffect(() => setMounted(true), [])
-  if (!mounted) return null
-
   return (
     <Card {...props} shadowless={containerShadowless}>
       {isRegistrationSuccess ? (
