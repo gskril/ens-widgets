@@ -21,8 +21,6 @@ export const useCreateSecret = (trackingCode?: string): Address => {
     throw new Error('Tracking code must be between 4 and 16 bytes')
   }
 
-  console.log(totalHex)
-
   useEffect(() => {
     const bytes = window.crypto.getRandomValues(new Uint8Array(32 - totalBytes))
     const hex = Array.from(bytes, (byte) =>
