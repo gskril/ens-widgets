@@ -38,6 +38,16 @@ yarn add @rainbow-me/rainbowkit
 
 ## Usage
 
+Required props:
+
+- `connectAction`: a function that opens a wallet connect modal
+- `wagmiClientConfig`: the object you used to configure wagmi in your app ([like this](https://github.com/gskril/web3-starter/blob/main/src/providers.ts#L19-L23))
+
+Optional props:
+
+- `shadowless`: if true, the widget will not have a shadow
+- `trackingCode`: a 4-16 character unique string that will be included in the registration event for on-chain analytics
+
 ```jsx
 import { Widget } from 'ens-widget'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
@@ -52,11 +62,10 @@ const App = () => {
 
   return (
     <Widget
+      trackingCode="my-cool-app"
       connectAction={openConnectModal}
       wagmiClientConfig={clientConfig}
     />
   )
 }
 ```
-
-While `clientConfig` may look confusing, you already have it from when you configured wagmi in your app. Just export it from the file where you configured wagmi ([like this](https://github.com/gskril/web3-starter/blob/main/src/providers.ts#L19-L23)) and import it into the file where you're using the widget.
