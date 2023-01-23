@@ -45,6 +45,7 @@ Required props:
 
 Optional props:
 
+- `name`: a preset name to register
 - `shadowless`: if true, the widget will not have a shadow
 - `trackingCode`: a 4-16 character unique string that will be included in the registration event for on-chain analytics
 

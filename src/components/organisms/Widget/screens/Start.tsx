@@ -25,6 +25,7 @@ interface StartProps {
   connectAction: (() => void) | undefined
   duration: string
   name: string
+  presetName: string | undefined
   secret: `0x${string}`
   setCommitHash: React.Dispatch<React.SetStateAction<Address | null>>
   setDuration: React.Dispatch<React.SetStateAction<string>>
@@ -35,6 +36,7 @@ export const Start = ({
   connectAction,
   duration,
   name,
+  presetName,
   secret,
   setCommitHash,
   setDuration,
@@ -48,7 +50,13 @@ export const Start = ({
   const resolver = getResolverAddress(chain?.id)
 
   const [isMounted, setIsMounted] = React.useState(false)
-  React.useEffect(() => setIsMounted(true), [])
+  React.useEffect(() => {
+    setIsMounted(true), []
+
+    if (presetName) {
+      setName(presetName)
+    }
+  })
 
   const {
     cost,
@@ -122,6 +130,7 @@ export const Start = ({
           value={name}
           setValue={setName}
           isValid={available.data}
+          disabled={!!presetName}
         />
 
         <Input

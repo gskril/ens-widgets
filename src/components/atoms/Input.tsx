@@ -122,21 +122,23 @@ const ValidationIconWrapper = styled.div(
 )
 
 interface InputProps {
-  type: 'number' | 'text'
+  disabled?: boolean
+  isValid?: boolean | undefined
   label: string
   placeholder: string
-  value: string
   setValue: React.Dispatch<React.SetStateAction<string>>
-  isValid?: boolean | undefined
+  type: 'number' | 'text'
+  value: string
 }
 
 export const Input = ({
-  type,
+  disabled,
+  isValid,
   label,
   placeholder,
-  value,
   setValue,
-  isValid,
+  type,
+  value,
   ...props
 }: InputProps) => {
   const handleIncrement = () => {
@@ -163,7 +165,7 @@ export const Input = ({
         value={value}
         placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}
-        disabled={type === 'number'}
+        disabled={type === 'number' || disabled}
       />
 
       {type === 'text' && isValid !== undefined && (

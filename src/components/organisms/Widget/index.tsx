@@ -9,7 +9,7 @@ import { WagmiClientConfig } from '../../../types'
 
 interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   connectAction: (() => void) | undefined
-  debug?: true
+  name?: string
   shadowless?: true
   trackingCode?: string
   wagmiClientConfig: WagmiClientConfig
@@ -17,13 +17,15 @@ interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * Widget that allows users to register ENS names inline.
- * @param connectAction Hook that gets called when the user clicks the connect button.
+ * @param connectAction Function that gets called when the user clicks the connect button.
+ * @param name Optional preset name to register.
  * @param shadowless Whether or not to render a box shadow around the widget. Defaults to false (showing the shadow).
- * @param trackingCode Unique identifier (4-16 character string) to track the widget's usage on-chain.
+ * @param trackingCode Optional unique identifier (4-16 character string) to track the widget's usage on-chain.
  * @param wagmiClientConfig Config object that gets passed into wagmi's `createClient()`
  */
 export const Widget = ({
   connectAction,
+  name,
   shadowless,
   trackingCode,
   wagmiClientConfig,
@@ -40,6 +42,7 @@ export const Widget = ({
         <WidgetContent
           connectAction={connectAction}
           containerShadowless={shadowless}
+          presetName={name}
           trackingCode={trackingCode}
           {...props}
         />

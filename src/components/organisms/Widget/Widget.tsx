@@ -8,12 +8,14 @@ import { useCreateSecret } from '../../../hooks/useCreateSecret'
 interface WidgetProps {
   connectAction: (() => void) | undefined
   containerShadowless?: true
+  presetName?: string
   trackingCode?: string
 }
 
 const Widget = ({
   connectAction,
   containerShadowless,
+  presetName,
   trackingCode,
   ...props
 }: WidgetProps) => {
@@ -45,6 +47,7 @@ const Widget = ({
           connectAction={connectAction}
           duration={duration}
           name={name}
+          presetName={presetName}
           secret={secret}
           setCommitHash={setCommitHash}
           setDuration={setDuration}
