@@ -1,12 +1,13 @@
-import { BigNumber } from 'ethers'
-import { parseEther } from 'ethers/lib/utils.js'
 import {
+  Address,
   useAccount,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from 'wagmi'
+import { BigNumber } from 'ethers'
+import { parseEther } from 'ethers/lib/utils.js'
 import React from 'react'
 
 import { Button, Container, RegistrationSteps } from '../styles'
@@ -23,10 +24,10 @@ import { Stage } from '../../../atoms/Stage'
 import { useCost } from '../../../../hooks/useCost'
 
 interface StepsProps {
-  commitHash: `0x${string}`
+  commitHash: Address
   duration: string
   name: string
-  secret: `0x${string}`
+  secret: Address
   setIsRegistrationSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 

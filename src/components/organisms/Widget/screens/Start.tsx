@@ -1,11 +1,12 @@
-import { Helper } from '@ensdomains/thorin'
 import {
+  Address,
   useAccount,
   useContractRead,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
 } from 'wagmi'
+import { Helper } from '@ensdomains/thorin'
 import React from 'react'
 
 import {
@@ -25,7 +26,7 @@ interface StartProps {
   duration: string
   name: string
   secret: `0x${string}`
-  setCommitHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>
+  setCommitHash: React.Dispatch<React.SetStateAction<Address | null>>
   setDuration: React.Dispatch<React.SetStateAction<string>>
   setName: React.Dispatch<React.SetStateAction<string>>
 }

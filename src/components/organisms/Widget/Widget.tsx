@@ -8,14 +8,16 @@ import { useCreateSecret } from '../../../hooks/useCreateSecret'
 interface WidgetProps {
   connectAction: (() => void) | undefined
   containerShadowless?: true
+  trackingCode?: any
 }
 
 const Widget = ({
   connectAction,
   containerShadowless,
+  trackingCode,
   ...props
 }: WidgetProps) => {
-  const secret = useCreateSecret()
+  const secret = useCreateSecret(trackingCode)
   const [name, setName] = React.useState<string>('')
   const [duration, setDuration] = React.useState<string>('1 year')
 

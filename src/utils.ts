@@ -1,4 +1,4 @@
-import { Chain } from 'wagmi'
+import { Address, Chain } from 'wagmi'
 import { SECONDS_PER_YEAR } from './contracts'
 import { SendTransactionResult } from '@wagmi/core'
 
@@ -24,7 +24,7 @@ export const parseName = (name: string): string => {
 }
 
 export const getEtherscanLink = (
-  tx: SendTransactionResult | `0x${string}` | undefined,
+  tx: SendTransactionResult | Address | undefined,
   chain: Chain | undefined
 ) => {
   const hash = typeof tx === 'string' ? tx : tx?.hash
