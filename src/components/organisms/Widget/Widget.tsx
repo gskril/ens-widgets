@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Card } from './styles'
 import { parseName } from '../../../utils'
-import { Start, Steps, Success } from './screens'
+import { PrimaryName, Start, Steps, Success } from './screens'
 import { useCreateSecret } from '../../../hooks/useCreateSecret'
 
 interface WidgetProps {
@@ -25,15 +25,22 @@ const Widget = ({
 
   // prettier-ignore
   const [isRegistrationSuccess, setIsRegistrationSuccess] = React.useState<boolean>(false)
+  const [isPrimaryNameSet, setIsPrimaryNameSet] = React.useState<boolean>(false)
   const [commitHash, setCommitHash] = React.useState<`0x${string}` | null>(null)
 
   return (
     <Card {...props} shadowless={containerShadowless}>
-      {isRegistrationSuccess ? (
-        // Third screen - registration has completed
+      {isPrimaryNameSet ? (
+        // Final screen
         <Success name={parseName(name)} />
+      ) : isRegistrationSuccess ? (
+        // Third screen - registration has completed
+        <PrimaryName
+          name={parseName(name)}
+          setIsPrimaryNameSet={setIsPrimaryNameSet}
+        />
       ) : commitHash ? (
-        // Second screen - registration has began
+        // Second screen - registration has started
         <Steps
           commitHash={commitHash}
           duration={duration}
@@ -42,7 +49,7 @@ const Widget = ({
           setIsRegistrationSuccess={setIsRegistrationSuccess}
         />
       ) : (
-        // First screen - registration has not began
+        // First screen - prepare registration
         <Start
           connectAction={connectAction}
           duration={duration}
