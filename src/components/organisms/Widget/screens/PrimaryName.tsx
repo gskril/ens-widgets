@@ -1,14 +1,14 @@
+import { Helper, Typography } from '@ensdomains/thorin'
 import {
-  Address,
-  useAccount,
-  useContractRead,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from 'wagmi'
 import React from 'react'
 
-import { Button } from '../styles'
+import { Container, Button } from '../styles'
+import { getEtherscanLink } from '../../../../utils'
 import {
   getReverseRegistrarAddress,
   REVERSE_REGISTRAR_ABI,
@@ -24,6 +24,67 @@ export const PrimaryName = ({
   name,
   setIsPrimaryNameSet,
 }: PrimaryNameProps) => {
-  name = 'gregskril.eth'
-  return <p>{name}</p>
+  const { chain } = useNetwork()
+
+  const prepare = usePrepareContractWrite({
+    address: getReverseRegistrarAddress(chain?.id),
+    abi: REVERSE_REGISTRAR_ABI,
+    functionName: 'setName',
+    args: [`${name}.eth`],
+  })
+
+  const transaction = useContractWrite(prepare.config)
+  const receipt = useWaitForTransaction(transaction.data)
+
+  React.useEffect(() => {
+    if (receipt.isSuccess) {
+      setIsPrimaryNameSet(true)
+    }
+  }, [receipt.isSuccess])
+
+  return (
+    <Container>
+      <Header />
+
+      <Typography as="p">
+        {name}.eth has been registered and set up successfully, but there's one
+        more recommended step.
+      </Typography>
+      <Typography as="p">
+        To get the full benefits of ENS, it's important to set your Primary
+        name. This is what allows dapps to recognize you by your new .eth name.
+      </Typography>
+
+      {prepare.isError ? (
+        <Helper type="error">
+          <div>Unable to read from ENS Registrar</div>
+        </Helper>
+      ) : receipt.isLoading ? (
+        <Button
+          loading
+          variant="secondary"
+          tone={transaction.isError ? 'red' : 'accent'}
+          onClick={() => {
+            window.open(getEtherscanLink(transaction.data, chain), '_blank')
+          }}
+        >
+          Transaction processing
+        </Button>
+      ) : (
+        <Button
+          disabled={!transaction.write}
+          variant="primary"
+          tone={transaction.isError ? 'red' : 'accent'}
+          loading={prepare.isLoading || transaction.isLoading}
+          onClick={() => transaction.write?.()}
+        >
+          {transaction.isError
+            ? 'Error Sending Transaction'
+            : transaction.isLoading
+            ? 'Confirm in Wallet'
+            : 'Set Primary Name'}
+        </Button>
+      )}
+    </Container>
+  )
 }

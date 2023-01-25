@@ -35,7 +35,10 @@ const Widget = ({
         <Success name={parseName(name)} />
       ) : isRegistrationSuccess ? (
         // Third screen - registration has completed
-        <PrimaryName setIsPrimaryNameSet={setIsPrimaryNameSet} name={name} />
+        <PrimaryName
+          name={parseName(name)}
+          setIsPrimaryNameSet={setIsPrimaryNameSet}
+        />
       ) : commitHash ? (
         // Second screen - registration has started
         <Steps
