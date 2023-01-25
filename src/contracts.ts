@@ -122,3 +122,21 @@ export const REGISTRAR_ABI = [
     type: 'function',
   },
 ] as const
+
+export const getReverseRegistrarAddress = (chainId: number | undefined) => {
+  return chainId === 5
+    ? '0x6F628b68b30Dc3c17f345c9dbBb1E483c2b7aE5c'
+    : '0x084b1c3c81545d370f3634392de611caabff8148'
+}
+
+export const REVERSE_REGISTRAR_ABI = [
+  {
+    constant: false,
+    inputs: [{ internalType: 'string', name: 'name', type: 'string' }],
+    name: 'setName',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+] as const
