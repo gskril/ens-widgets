@@ -1,4 +1,4 @@
-import { Helper, Typography } from '@ensdomains/thorin'
+import { Helper, mq, Typography } from '@ensdomains/thorin'
 import {
   useContractWrite,
   useNetwork,
@@ -6,6 +6,7 @@ import {
   useWaitForTransaction,
 } from 'wagmi'
 import React from 'react'
+import styled, { css } from 'styled-components'
 
 import { Container, Button } from '../styles'
 import { getEtherscanLink } from '../../../../utils'
@@ -14,6 +15,31 @@ import {
   REVERSE_REGISTRAR_ABI,
 } from '../../../../contracts'
 import { Header } from '../../Header'
+
+const ButtonsColumn = styled.div(
+  ({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    flex-direction: row;
+    gap: ${theme.space['3']};
+
+    .small {
+      display: none;
+    }
+
+    ${mq.sm.max(css`
+      grid-template-columns: 1fr;
+
+      .normal {
+        display: none;
+      }
+
+      .small {
+        display: block;
+      }
+    `)}
+  `
+)
 
 interface PrimaryNameProps {
   name: string
@@ -71,19 +97,40 @@ export const PrimaryName = ({
           Transaction processing
         </Button>
       ) : (
-        <Button
-          disabled={!transaction.write}
-          variant="primary"
-          tone={transaction.isError ? 'red' : 'accent'}
-          loading={prepare.isLoading || transaction.isLoading}
-          onClick={() => transaction.write?.()}
-        >
-          {transaction.isError
-            ? 'Error Sending Transaction'
-            : transaction.isLoading
-            ? 'Confirm in Wallet'
-            : 'Set Primary Name'}
-        </Button>
+        <ButtonsColumn>
+          <Button
+            shadowless
+            size="small"
+            className="small"
+            variant="secondary"
+            onClick={() => setIsPrimaryNameSet(true)}
+          >
+            Skip
+          </Button>
+
+          <Button
+            shadowless
+            className="normal"
+            variant="secondary"
+            onClick={() => setIsPrimaryNameSet(true)}
+          >
+            Skip
+          </Button>
+
+          <Button
+            disabled={!transaction.write}
+            variant="primary"
+            tone={transaction.isError ? 'red' : 'accent'}
+            loading={prepare.isLoading || transaction.isLoading}
+            onClick={() => transaction.write?.()}
+          >
+            {transaction.isError
+              ? 'Error Sending Transaction'
+              : transaction.isLoading
+              ? 'Confirm in Wallet'
+              : 'Set Primary Name'}
+          </Button>
+        </ButtonsColumn>
       )}
     </Container>
   )
