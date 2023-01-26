@@ -9,13 +9,22 @@
     "examples/*"
   ],
   "scripts": {
-    "dev": "yarn workspace widget run dev && yarn workspace example run dev",
+    "dev": "yarn dev:widget & yarn dev:example",
     "dev:widget": "yarn workspace widget run dev",
-    "dev:example": "yarn workspace example run dev"
+    "dev:example": "yarn workspace next run dev",
+    "clean": "yarn workspaces run clean && rm -rf node_modules",
+    "build": "yarn workspace widget run build && cp README.md packages/widget/README.md"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.3.0",
+    "@rollup/plugin-typescript": "^11.0.0",
     "ethers": "^5.7.2",
     "prettier": "^2.8.2",
+    "rollup": "^3.9.1",
+    "rollup-plugin-dts": "^5.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "wagmi": "^0.10.10"
   }
 }

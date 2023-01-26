@@ -11,29 +11,13 @@ Clone this repo and install dependencies
 ```bash
 git clone https://github.com/gskril/ens-widget.git
 cd ens-widget
-yarn
+yarn install
 ```
 
-Build the component and make it available to other projects on your machine by creating a symlink to it
+Start the code bundler for the component and the example react app
 
 ```bash
-yarn run rollup
-yarn link
-```
-
-In the root directory of your project where you want to use the widget, link the component
-
-```bash
-yarn link ens-widget
-```
-
-Make sure you have the peer dependencies installed in your project (feel free to test with [web3-starter](https://github.com/gskril/web3-starter) which already has these)
-
-```bash
-yarn add ethers styled-components wagmi
-
-# Then you can use the wallet connect library of your choice. I use rainbowkit
-yarn add @rainbow-me/rainbowkit
+yarn dev
 ```
 
 ## Usage
