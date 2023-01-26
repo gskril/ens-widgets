@@ -1,0 +1,43 @@
+{
+  "name": "widget",
+  "version": "0.0.1",
+  "description": "Embeddable widget to register ENS names",
+  "author": "Greg Skriloff",
+  "scripts": {
+    "dev": "rollup -w -c",
+    "rollup": "rollup -c",
+    "clean": "rm -rf dist"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.3.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/react": "^18.0.26",
+    "@types/styled-components": "^5.1.26",
+    "rollup": "^3.9.1",
+    "rollup-plugin-dts": "^5.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "styled-components": "^5.3.6",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.4"
+  },
+  "peerDependencies": {
+    "ethers": "^5.7.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.6",
+    "wagmi": "^0.10.10"
+  },
+  "dependencies": {
+    "@ensdomains/thorin": "^0.6.20",
+    "react-transition-state": "^2.0.2"
+  }
+}
