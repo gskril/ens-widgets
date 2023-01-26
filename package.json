@@ -1,46 +1,32 @@
 {
   "name": "ens-widget",
-  "version": "0.0.1",
-  "description": "Embeddable widget to register ENS names",
-  "author": "Greg Skriloff",
-  "scripts": {
-    "dev": "rollup -w -c",
-    "rollup": "rollup -c",
-    "clean": "rm -rf dist"
-  },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "files": [
-    "dist"
+  "version": "0.0.0",
+  "description": "React components for ENS",
+  "main": "packages/widget/src/index.ts",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "examples/*"
   ],
-  "types": "dist/index.d.ts",
-  "license": "ISC",
+  "scripts": {
+    "dev": "yarn dev:widget & yarn dev:example",
+    "dev:widget": "yarn workspace widget run dev",
+    "dev:example": "yarn workspace next run dev",
+    "clean": "yarn workspaces run clean && rm -rf node_modules",
+    "build": "yarn workspace widget run build && cp README.md packages/widget/README.md",
+    "build:widget": "yarn workspace widget run build",
+    "prepublish": "yarn build:widget && cd packages/widget && yarn pack --filename widget.tgz && mkdir temp && tar -xf widget.tgz -C temp && cd temp/package && ls -R && cd ../../ && rm widget.tgz && rm -rf temp"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.3.0",
     "@rollup/plugin-typescript": "^11.0.0",
-    "@types/react": "^18.0.26",
-    "@types/styled-components": "^5.1.26",
     "ethers": "^5.7.2",
     "prettier": "^2.8.2",
     "rollup": "^3.9.1",
     "rollup-plugin-dts": "^5.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "styled-components": "^5.3.6",
-    "tslib": "^2.4.1",
-    "typescript": "^4.9.4",
     "wagmi": "^0.10.10"
-  },
-  "peerDependencies": {
-    "ethers": "^5.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "styled-components": "^5.3.6",
-    "wagmi": "^0.10.10"
-  },
-  "dependencies": {
-    "@ensdomains/thorin": "^0.6.20",
-    "react-transition-state": "^2.0.2"
   }
 }
