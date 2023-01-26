@@ -19,6 +19,7 @@ import { Header } from '../../Header'
 import { Input } from '../../../atoms/Input'
 import { parseName } from '../../../../utils'
 import { useCost } from '../../../../hooks/useCost'
+import { useNormalizeName } from '../../../../hooks/useNormalizeName'
 import useDebounce from '../../../../hooks/useDebounce'
 
 interface StartProps {
@@ -76,6 +77,20 @@ export const Start = ({
     enabled: !!debouncedName && !!address,
   })
 
+  const isNormalized = useNormalizeName(debouncedName)
+
+  const checkIsValid = () => {
+    if (isNormalized === false) {
+      return false
+    } else if (isNormalized === true) {
+      return available.data
+    } else {
+      return undefined
+    }
+  }
+
+  const isValid = checkIsValid()
+
   const makeCommitment = useContractRead({
     address: REGISTRAR_ADDRESS,
     abi: REGISTRAR_ABI,
@@ -129,7 +144,7 @@ export const Start = ({
           placeholder="nick.eth"
           value={name}
           setValue={setName}
-          isValid={available.data}
+          isValid={isValid}
           disabled={!!presetName}
         />
 
