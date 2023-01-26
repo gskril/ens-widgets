@@ -75,7 +75,7 @@ export const Start = ({
     enabled: !!debouncedName && !!address,
   })
 
-  const isNormalized = useNormalizeName(debouncedName)
+  const { isNormalized } = useNormalizeName(debouncedName, setName)
 
   const checkIsValid = () => {
     if (isNormalized === false) {
@@ -168,12 +168,8 @@ export const Start = ({
           <Button
             variant="primary"
             tone={commit.isError ? 'red' : 'accent'}
-            disabled={!commit || !available.data}
-            loading={
-              (isCostLoading && !isCostError) ||
-              prepareCommit.isLoading ||
-              commit.isLoading
-            }
+            disabled={!commit || !isValid}
+            loading={(isCostLoading && !isCostError) || commit.isLoading}
             suffix={
               cost && !commit.isError ? (
                 <span style={{ fontWeight: '300', opacity: '90%' }}>

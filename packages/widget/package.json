@@ -30,8 +30,8 @@
     "wagmi": "^0.10.10"
   },
   "dependencies": {
+    "@adraffy/ens-normalize": "^1.8.6",
     "@ensdomains/thorin": "^0.6.20",
-    "eth-ens-namehash": "^2.0.8",
     "react-transition-state": "^2.0.2"
   }
 }

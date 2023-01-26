@@ -1,11 +1,34 @@
-import { normalize } from 'eth-ens-namehash'
+import { ens_normalize as normalize } from '@adraffy/ens-normalize'
+import React from 'react'
+import { parseName } from '../utils'
 
-export const useNormalizeName = (name: string) => {
-  if (!name) return undefined
+interface UseNormalizeName {
+  isNormalized: boolean
+}
 
+export const useNormalizeName = (
+  name: string,
+  setName: React.Dispatch<React.SetStateAction<string>>
+): UseNormalizeName => {
   try {
-    return name === normalize(name)
+    const normalizedName = normalize(name)
+
+    if (parseName(normalizedName).includes('.')) {
+      return {
+        isNormalized: false,
+      }
+    } else {
+      if (normalizedName !== name) {
+        setName(normalizedName)
+      }
+
+      return {
+        isNormalized: true,
+      }
+    }
   } catch {
-    return false
+    return {
+      isNormalized: false,
+    }
   }
 }

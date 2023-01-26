@@ -20,7 +20,7 @@ export const parseDuration = (duration: string): string => {
  * @returns string of name without .eth suffix e.g. 'wagmi'
  */
 export const parseName = (name: string): string => {
-  return name.endsWith('.eth') ? name.split('.')[0] : name
+  return name.endsWith('.eth') ? name.split('.eth')[0] : name
 }
 
 export const getEtherscanLink = (
