@@ -18,9 +18,7 @@ import { Button, Container, Inputs } from '../styles'
 import { Header } from '../../Header'
 import { Input } from '../../../atoms/Input'
 import { parseName } from '../../../../utils'
-import { useCost } from '../../../../hooks/useCost'
-import { useNormalizeName } from '../../../../hooks/useNormalizeName'
-import useDebounce from '../../../../hooks/useDebounce'
+import { useCost, useDebounce, useNormalizeName } from '../../../../hooks'
 
 interface StartProps {
   connectAction: (() => void) | undefined

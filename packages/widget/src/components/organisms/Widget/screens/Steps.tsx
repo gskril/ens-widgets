@@ -21,7 +21,7 @@ import {
 } from '../../../../contracts'
 import { Rows } from '../../../atoms/Row'
 import { Stage } from '../../../atoms/Stage'
-import { useCost } from '../../../../hooks/useCost'
+import { useCost } from '../../../../hooks'
 
 interface StepsProps {
   commitHash: Address

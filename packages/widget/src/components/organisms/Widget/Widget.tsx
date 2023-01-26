@@ -3,7 +3,7 @@ import React from 'react'
 import { Card } from './styles'
 import { parseName } from '../../../utils'
 import { PrimaryName, Start, Steps, Success } from './screens'
-import { useCreateSecret } from '../../../hooks/useCreateSecret'
+import { useCreateSecret } from '../../../hooks'
 
 interface WidgetProps {
   connectAction: (() => void) | undefined
