@@ -20,6 +20,8 @@ Start the code bundler for the component and the example react app
 yarn dev
 ```
 
+Open [localhost:3000](http://localhost:3000/) in your browser to see the widget in action. Any changes to [packages/widget](packages/widget) or [examples/next](examples/next) will auto-reload the page.
+
 ## Usage
 
 Required props:
