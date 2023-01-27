@@ -15,9 +15,10 @@ import { getEtherscanLink, parseDuration, parseName } from '../../../../utils'
 import { Header } from '../../Header'
 import { Progress } from '../../../atoms/Progress'
 import {
+  getResolverAddress,
   REGISTRAR_ABI,
   REGISTRAR_ADDRESS,
-  getResolverAddress,
+  REGISTRATION_GAS_AMOUNT,
 } from '../../../../contracts'
 import { Rows } from '../../../atoms/Row'
 import { Stage } from '../../../atoms/Stage'
@@ -80,7 +81,7 @@ export const Steps = ({
     ],
     overrides: {
       value: parseEther((Number(rentEth)! * 1.05).toFixed(12).toString()),
-      gasLimit: BigNumber.from('300000'),
+      gasLimit: BigNumber.from(REGISTRATION_GAS_AMOUNT),
     },
     enabled: timer < 5,
   })
