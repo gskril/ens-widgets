@@ -12,7 +12,7 @@ const InputWrapper = styled.div(
     gap: ${theme.space[1]};
     padding: ${theme.space[3]} ${theme.space[4]};
     border: ${theme.borderWidths['0.375']} solid ${theme.colors.borderTertiary};
-    background-color: ${theme.colors.white};
+    background-color: ${theme.colors['0']};
     border-radius: ${theme.radii.medium};
     box-shadow: 1px 1px 6px rgba(66, 124, 211, 0.1);
 
@@ -41,6 +41,7 @@ const StyledInput = styled.input(
     border: none;
     border-bottom: ${theme.borderWidths['0.375']} solid transparent;
     transition: border-bottom 0.1s ease-in-out;
+    background-color: inherit;
 
     &::placeholder {
       color: ${theme.colors.lightGrey};

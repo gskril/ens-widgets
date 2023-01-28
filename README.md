@@ -33,6 +33,7 @@ Optional props:
 
 - `name`: a preset name to register
 - `shadowless`: if true, the widget will not have a shadow
+- `theme`: easily choose between dark and light mode (defaults to light)
 - `trackingCode`: a 4-16 character unique string that will be included in the registration event for on-chain analytics
 
 ```jsx

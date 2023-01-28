@@ -4,9 +4,18 @@ import { Button as ThorinButton, mq } from '@ensdomains/thorin'
 export const Button = styled(ThorinButton)(
   ({ theme, variant }) => css`
     border: none;
+    color: ${theme.colors.white};
+
+    svg {
+      stroke: ${theme.colors.white};
+    }
 
     &:disabled {
-      ${variant === 'primary' && `background-color: ${theme.colors.accent};`}
+      ${variant === 'primary' &&
+      css`
+        color: ${theme.colors.white};
+        background-color: ${theme.colors.accent};
+      `}
     }
 
     ${variant === 'secondary' &&
@@ -32,7 +41,7 @@ export const Card = styled.div(
   ({ theme, shadowless }: CardProps) => css`
     width: 100%;
     border: ${theme.borderWidths['0.375']} solid ${theme.colors.borderSecondary};
-    background-color: #fafcff;
+    background-color: ${theme.colors.backgroundSecondary};
     box-shadow: ${theme.boxShadows.primary};
     border-radius: ${theme.radii.large};
     padding: 1.25rem;

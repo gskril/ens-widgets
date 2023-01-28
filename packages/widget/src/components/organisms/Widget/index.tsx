@@ -4,14 +4,15 @@ import { ThorinGlobalStyles } from '@ensdomains/thorin'
 import React from 'react'
 import useMeasure from 'react-use-measure'
 
-import { theme } from '../../../styles/theme'
+import { darkTheme, lightTheme } from '../../../styles/theme'
+import { Theme, WagmiClientConfig } from '../../../types'
 import { WidgetContent } from './Widget'
-import { WagmiClientConfig } from '../../../types'
 
 interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   connectAction: (() => void) | undefined
   name?: string
   shadowless?: true
+  theme?: Theme
   trackingCode?: string
   wagmiClientConfig: WagmiClientConfig
 }
@@ -21,13 +22,15 @@ interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
  * @param connectAction Function that gets called when the user clicks the connect button.
  * @param name Optional preset name to register.
  * @param shadowless Whether or not to render a box shadow around the widget. Defaults to false (showing the shadow).
+ * @param theme Colors to render the widget in. Options are "light" (default) and "dark".
  * @param trackingCode Optional unique identifier (4-16 character string) to track the widget's usage on-chain.
- * @param wagmiClientConfig Config object that gets passed into wagmi's `createClient()`
+ * @param wagmiClientConfig Config object that gets passed into wagmi's `createClient()`.
  */
 export const Widget = ({
   connectAction,
   name,
   shadowless,
+  theme: widgetTheme,
   trackingCode,
   wagmiClientConfig,
   ...props
@@ -39,7 +42,7 @@ export const Widget = ({
 
   return (
     <WagmiConfig client={client}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={widgetTheme === 'dark' ? darkTheme : lightTheme}>
         <ThorinGlobalStyles />
         <div
           style={{

@@ -22,3 +22,5 @@ export interface WagmiClientConfig {
   storage?: Storage
   webSocketProvider?: WebSocketProvider
 }
+
+export type Theme = 'light' | 'dark'
