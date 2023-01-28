@@ -8,12 +8,17 @@
     "build": "rollup -c",
     "clean": "rm -rf dist && rm -rf node_modules && rm -rf README.md"
   },
-  "main": "dist/cjs/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gskril/ens-widget.git",
+    "directory": "packages/widget"
+  },
   "module": "dist/esm/index.js",
+  "exports": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
   "license": "ISC",
   "devDependencies": {
     "@types/react": "^18.0.26",
