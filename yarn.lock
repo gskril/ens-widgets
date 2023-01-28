@@ -3938,6 +3938,14 @@ which-typed-array@^1.1.2:
     has-tostringtag "^1.0.0"
     is-typed-array "^1.1.10"
 
+"widget@file:packages/widget":
+  version "0.0.1"
+  dependencies:
+    "@adraffy/ens-normalize" "^1.8.6"
+    "@ensdomains/thorin" "^0.6.20"
+    react-transition-state "^2.0.2"
+    react-use-measure "^2.1.1"
+
 wrap-ansi@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-5.1.0.tgz#1fd1f67235d5b6d0fee781056001bfb694c03b09"
