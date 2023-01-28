@@ -4,12 +4,12 @@ import { ThorinGlobalStyles } from '@ensdomains/thorin'
 import React from 'react'
 import useMeasure from 'react-use-measure'
 
+import { ConnectAction, Theme, WagmiClientConfig } from '../../../types'
 import { darkTheme, lightTheme } from '../../../styles/theme'
-import { Theme, WagmiClientConfig } from '../../../types'
 import { WidgetContent } from './Widget'
 
 interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
-  connectAction: (() => void) | undefined
+  connectAction: ConnectAction
   name?: string
   shadowless?: true
   theme?: Theme

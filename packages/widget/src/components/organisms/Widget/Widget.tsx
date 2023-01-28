@@ -1,12 +1,13 @@
 import React from 'react'
 
 import { Card } from './styles'
+import { ConnectAction } from '../../../types'
 import { parseName } from '../../../utils'
 import { PrimaryName, Start, Steps, Success } from './screens'
 import { useCreateSecret } from '../../../hooks'
 
 interface WidgetProps {
-  connectAction: (() => void) | undefined
+  connectAction: ConnectAction
   containerShadowless?: true
   presetName?: string
   trackingCode?: string

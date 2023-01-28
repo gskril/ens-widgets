@@ -26,7 +26,7 @@ Open [localhost:3000](http://localhost:3000/) in your browser to see the widget 
 
 Required props:
 
-- `connectAction`: a function that opens a wallet connect modal
+- `connectAction`: a function that opens a wallet connect modal. Tested with Rainbowkit and ConnectKit.
 - `wagmiClientConfig`: the object you used to configure wagmi in your app ([like this](https://github.com/gskril/web3-starter/blob/main/src/providers.ts#L19-L23))
 
 Optional props:

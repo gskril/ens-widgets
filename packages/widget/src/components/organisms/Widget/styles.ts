@@ -20,12 +20,14 @@ export const Button = styled(ThorinButton)(
 
     ${variant === 'secondary' &&
     css`
+      color: ${theme.colors.accent};
+
       svg {
         stroke: ${theme.colors.accent};
       }
 
       &:disabled {
-        color: ${theme.colors.accent};
+        color: inherit;
         background-color: ${theme.colors.accentSecondaryHover};
       }
     `}

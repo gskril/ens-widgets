@@ -15,13 +15,14 @@ import {
   getResolverAddress,
 } from '../../../../contracts'
 import { Button, Container, Inputs } from '../styles'
+import { ConnectAction } from '../../../../types'
 import { Header } from '../../Header'
 import { Input } from '../../../atoms/Input'
 import { parseName } from '../../../../utils'
 import { useCost, useDebounce, useNormalizeName } from '../../../../hooks'
 
 interface StartProps {
-  connectAction: (() => void) | undefined
+  connectAction: ConnectAction
   duration: string
   name: string
   presetName: string | undefined
@@ -126,7 +127,7 @@ export const Start = ({
         e.preventDefault()
 
         if (!isConnected) {
-          connectAction?.()
+          connectAction?.(true)
           return
         }
 
