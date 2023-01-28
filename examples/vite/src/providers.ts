@@ -4,7 +4,7 @@ import { mainnet, goerli } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 export const { chains, provider } = configureChains(
-  [mainnet, goerli],
+  [goerli, mainnet],
   [publicProvider()]
 )
 

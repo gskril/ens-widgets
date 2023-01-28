@@ -11,9 +11,9 @@
   "scripts": {
     "dev": "yarn dev:widget & yarn dev:example",
     "dev:widget": "yarn workspace widget run dev",
-    "dev:example": "yarn workspace next run dev",
+    "dev:example": "yarn workspace vite-example run dev",
     "clean": "yarn workspaces run clean && rm -rf node_modules",
-    "build": "yarn workspace widget run build && yarn workspace next run build",
+    "build": "yarn workspace widget run build && yarn workspace vite-example run build",
     "build:widget": "yarn workspace widget run build && cp README.md packages/widget/README.md",
     "prepublish": "yarn build:widget && cd packages/widget && yarn pack --filename widget.tgz && mkdir temp && tar -xf widget.tgz -C temp && cd temp/package && ls -R && cd ../../ && rm widget.tgz && rm -rf temp"
   },
