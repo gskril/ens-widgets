@@ -17,8 +17,10 @@ export const useCreateSecret = (trackingCode?: string): Address => {
   const totalBytes = baseBytes + trackingBytes
 
   // Reserve a minimum of 8 bytes for the random secret
-  if (trackingBytes < 4 || totalBytes > 24) {
-    throw new Error('Tracking code must be between 4 and 16 bytes')
+  if (trackingCode) {
+    if (trackingBytes < 4 || totalBytes > 24) {
+      throw new Error('Tracking code must be between 4 and 16 bytes')
+    }
   }
 
   useEffect(() => {
