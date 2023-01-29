@@ -9,7 +9,7 @@ This is a React component that allows you to register .eth names on the Ethereum
 Clone this repo and install dependencies
 
 ```bash
-git clone https://github.com/gskril/ens-widget.git
+git clone https://github.com/gskril/ens-widgets.git
 cd ens-widget
 yarn install
 ```
@@ -17,10 +17,14 @@ yarn install
 Start the code bundler for the component and the example react app
 
 ```bash
+yarn dev:widget
+# then in another terminal window
+yarn dev:example
+# or together
 yarn dev
 ```
 
-Open [localhost:3000](http://localhost:3000/) in your browser to see the widget in action. Any changes to [packages/widget](packages/widget) or [examples/vite](examples/vite) will auto-reload the page.
+Any changes to [packages/widget](packages/widget) or [examples/vite](examples/vite/src/App.tsx) will auto-reload the page. Ethereum mainnet and Goerli testnet are supported.
 
 ## Usage
 
@@ -37,7 +41,7 @@ Optional props:
 - `trackingCode`: a 4-16 character unique string that will be included in the registration event for on-chain analytics
 
 ```jsx
-import { Widget } from 'ens-widget'
+import { Widget } from 'widget'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 const clientConfig = {
