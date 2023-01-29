@@ -1,5 +1,5 @@
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit'
-import { Widget } from 'widget'
+import { Widget } from 'ens-widgets'
 
 import './App.css'
 import { wagmiClientConfig } from './providers'

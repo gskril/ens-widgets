@@ -1,7 +1,7 @@
 {
-  "name": "widget",
+  "name": "ens-widgets",
   "version": "0.0.1",
-  "description": "Embeddable widget to register ENS names",
+  "description": "React components for interacting with the Ethereum Name Service",
   "author": "Greg Skriloff",
   "scripts": {
     "dev": "rollup -w -c",
