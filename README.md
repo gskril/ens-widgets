@@ -33,7 +33,7 @@ Optional props:
 - `trackingCode`: a 4-16 character unique string that will be included in the registration event for on-chain analytics
 
 ```jsx
-import { Widget } from 'ens-widgets'
+import { RegistrationWidget } from 'ens-widgets'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 const clientConfig = {
@@ -45,7 +45,7 @@ const App = () => {
   const { openConnectModal } = useConnectModal()
 
   return (
-    <Widget
+    <RegistrationWidget
       connectAction={openConnectModal}
       wagmiClientConfig={clientConfig}
     />
