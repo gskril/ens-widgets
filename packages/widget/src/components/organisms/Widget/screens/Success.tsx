@@ -61,7 +61,7 @@ export const Success = ({ name }: RegistrationSuccessProps) => {
           <Logo />
         </LogoWrapper>
 
-        <Heading>Registartion Complete!</Heading>
+        <Heading>Registration Complete!</Heading>
       </div>
 
       <div>
