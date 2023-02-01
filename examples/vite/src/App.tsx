@@ -9,12 +9,12 @@ export default function Home() {
   return (
     <main>
       <div className="wrapper">
-        <ConnectButton />
+        <ConnectButton showBalance={false} />
 
         <Widget
           wagmiClientConfig={wagmiClientConfig}
           connectAction={openConnectModal}
-          trackingCode="my-unique-code"
+          trackingCode="demo"
         />
       </div>
     </main>
