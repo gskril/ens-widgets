@@ -26,7 +26,7 @@ interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
  * @param trackingCode Optional unique identifier (4-16 character string) to track the widget's usage on-chain.
  * @param wagmiClientConfig Config object that gets passed into wagmi's `createClient()`.
  */
-export const Widget = ({
+export const RegistrationWidget = ({
   connectAction,
   name,
   shadowless,

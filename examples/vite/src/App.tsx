@@ -1,5 +1,5 @@
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit'
-import { Widget } from 'ens-widgets'
+import { RegistrationWidget } from 'ens-widgets'
 
 import './App.css'
 import { wagmiClientConfig } from './providers'
@@ -11,7 +11,7 @@ export default function Home() {
       <div className="wrapper">
         <ConnectButton showBalance={false} />
 
-        <Widget
+        <RegistrationWidget
           wagmiClientConfig={wagmiClientConfig}
           connectAction={openConnectModal}
           trackingCode="demo"

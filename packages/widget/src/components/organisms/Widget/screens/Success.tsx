@@ -74,7 +74,10 @@ export const Success = ({ name }: RegistrationSuccessProps) => {
 
         <Typography as="p">
           Configure your name further at{' '}
-          <Link to="https://app.ens.domains">app.ens.domains</Link>.
+          <Link to={`https://app.ens.domains/name/${name}.eth/details`}>
+            app.ens.domains
+          </Link>
+          .
         </Typography>
       </div>
     </Container>
