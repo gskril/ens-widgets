@@ -73,12 +73,10 @@ export const PrimaryName = ({
       <Header />
 
       <Typography as="p">
-        {name}.eth has been registered and set up successfully, but there's one
-        more recommended step.
+        To improve your web3 experience, set your Primary ENS Name.
       </Typography>
       <Typography as="p">
-        To get the full benefits of ENS, it's important to set your Primary
-        name. This is what allows dapps to recognize you by your new .eth name.
+        This will allow dapps to identify you as {name}.eth
       </Typography>
 
       {prepare.isError ? (
@@ -88,6 +86,7 @@ export const PrimaryName = ({
       ) : receipt.isLoading ? (
         <Button
           loading
+          shadowless
           variant="secondary"
           tone={transaction.isError ? 'red' : 'accent'}
           onClick={() => {
