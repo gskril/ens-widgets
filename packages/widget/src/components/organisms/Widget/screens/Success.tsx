@@ -61,14 +61,14 @@ export const Success = ({ name }: RegistrationSuccessProps) => {
           <Logo />
         </LogoWrapper>
 
-        <Heading>Registartion Complete!</Heading>
+        <Heading>Registration Complete!</Heading>
       </div>
 
       <div>
         {address && (
           <Typography as="p">
-            {name}.eth will now resolve to {truncateAddress(address)} across
-            web3.
+            {name}.eth will now point to{' '}
+            <span title={address}>{truncateAddress(address)}</span> across web3.
           </Typography>
         )}
 

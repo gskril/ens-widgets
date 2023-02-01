@@ -27,7 +27,7 @@ export const Button = styled(ThorinButton)(
       }
 
       &:disabled {
-        color: inherit;
+        color: ${theme.colors.accent};
         background-color: ${theme.colors.accentSecondaryHover};
       }
     `}
