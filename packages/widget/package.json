@@ -1,6 +1,6 @@
 {
   "name": "ens-widgets",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "React components for interacting with the Ethereum Name Service",
   "author": "Greg Skriloff",
   "scripts": {
@@ -13,8 +13,8 @@
     "url": "git+https://github.com/gskril/ens-widget.git",
     "directory": "packages/widget"
   },
-  "module": "dist/esm/index.js",
-  "exports": "./dist/esm/index.js",
+  "module": "dist/index.js",
+  "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
   "files": [
