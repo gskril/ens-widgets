@@ -1,9 +1,8 @@
 import commonjs from '@rollup/plugin-commonjs'
-import dts from 'rollup-plugin-dts'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import resolve from '@rollup/plugin-node-resolve'
 import terser from '@rollup/plugin-terser'
-import typescript from '@rollup/plugin-typescript'
+import typescript from 'rollup-plugin-typescript2'
 
 import packageJson from './package.json' assert { type: 'json' }
 
@@ -21,13 +20,11 @@ export default [
       peerDepsExternal(),
       resolve(),
       commonjs(),
-      typescript({ tsconfig: './tsconfig.json' }),
+      typescript({
+        useTsconfigDeclarationDir: true,
+        exclude: 'node_modules/**',
+      }),
       terser(),
     ],
-  },
-  {
-    input: 'dist/types/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [dts()],
   },
 ]
