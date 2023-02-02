@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "yarn dev:widget & yarn dev:example",
     "dev:widget": "yarn workspace ens-widgets run dev",
-    "dev:example": "yarn workspace vite-example run dev",
+    "dev:vite": "yarn workspace vite-example run dev",
+    "dev:next": "yarn workspace next-example run dev",
     "clean": "yarn workspaces run clean && rm -rf node_modules",
     "build": "yarn workspace ens-widgets run build && yarn workspace vite-example run build",
     "build:widget": "yarn workspace ens-widgets run build && cp README.md packages/widget/README.md",
