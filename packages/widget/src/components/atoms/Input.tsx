@@ -75,7 +75,6 @@ const Counters = styled.div(
 const Counter = styled.button(
   ({ theme }) => css`
     display: flex;
-    padding-bottom: 2px;
     justify-content: center;
     align-items: center;
     width: ${theme.space[6]};
@@ -181,14 +180,14 @@ export const Input = ({
             disabled={parseInt(value) < 2}
             onClick={() => handleDecrement()}
           >
-            –
+            <span style={{ transform: 'translateY(-0.0625rem)' }}>–</span>
           </Counter>
           <Counter
             type="button"
             disabled={parseInt(value) > 9}
             onClick={() => handleIncrement()}
           >
-            +
+            <span style={{ transform: 'translateY(0.03125rem)' }}>+</span>
           </Counter>
         </Counters>
       )}
