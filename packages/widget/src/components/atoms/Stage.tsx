@@ -1,7 +1,8 @@
+import { css } from 'styled-components'
 import { Spinner, Typography } from '@ensdomains/thorin'
-import React from 'react'
-import styled, { css } from 'styled-components'
+
 import { CheckIcon, CrossIcon } from './Icons'
+import styled from '../../styles/styled/'
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const Container = styled.div`
   gap: ${({ theme }) => theme.space[1]};
 `
 
-const IconWrapper = styled.div<{ status: Status }>(
+const IconWrapper = styled.div(
   ({ status, theme }) => css`
     width: ${theme.space[6]};
     height: ${theme.space[6]};

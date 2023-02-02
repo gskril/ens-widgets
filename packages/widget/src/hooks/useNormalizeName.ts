@@ -1,5 +1,5 @@
 import { ens_normalize as normalize } from '@adraffy/ens-normalize'
-import React from 'react'
+
 import { parseName } from '../utils'
 
 interface UseNormalizeName {

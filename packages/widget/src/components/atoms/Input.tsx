@@ -1,7 +1,8 @@
 import { CrossIcon, CheckIcon } from './Icons'
+import { css, DefaultTheme } from 'styled-components'
 import { mq } from '@ensdomains/thorin'
-import React from 'react'
-import styled, { css, DefaultTheme } from 'styled-components'
+
+import styled from '../../styles/styled/'
 
 const InputWrapper = styled.div(
   ({ theme }) => css`

@@ -1,5 +1,6 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
+import { css } from 'styled-components'
+
+import styled from '../../styles/styled/'
 
 interface LinkProps {
   to: string
