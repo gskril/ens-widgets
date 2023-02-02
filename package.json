@@ -8,7 +8,7 @@
     "examples/*"
   ],
   "scripts": {
-    "dev": "yarn dev:widget & yarn dev:example",
+    "dev": "yarn dev:widget & yarn dev:vite",
     "dev:widget": "yarn workspace ens-widgets run dev",
     "dev:vite": "yarn workspace vite-example run dev",
     "dev:next": "yarn workspace next-example run dev",
