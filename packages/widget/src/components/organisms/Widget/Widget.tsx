@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 
 import { Card } from './styles'
 import { ConnectAction } from '../../../types'
@@ -21,13 +21,13 @@ const Widget = ({
   ...props
 }: WidgetProps) => {
   const secret = useCreateSecret(trackingCode)
-  const [name, setName] = useState<string>('')
-  const [duration, setDuration] = useState<string>('1 year')
+  const [name, setName] = React.useState<string>('')
+  const [duration, setDuration] = React.useState<string>('1 year')
 
   // prettier-ignore
-  const [isRegistrationSuccess, setIsRegistrationSuccess] = useState<boolean>(false)
-  const [isPrimaryNameSet, setIsPrimaryNameSet] = useState<boolean>(false)
-  const [commitHash, setCommitHash] = useState<`0x${string}` | null>(null)
+  const [isRegistrationSuccess, setIsRegistrationSuccess] = React.useState<boolean>(false)
+  const [isPrimaryNameSet, setIsPrimaryNameSet] = React.useState<boolean>(false)
+  const [commitHash, setCommitHash] = React.useState<`0x${string}` | null>(null)
 
   return (
     <Card {...props} shadowless={containerShadowless}>

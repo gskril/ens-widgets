@@ -1,7 +1,5 @@
+import styled, { css, DefaultTheme } from 'styled-components'
 import { Button as ThorinButton, mq } from '@ensdomains/thorin'
-import { css, DefaultTheme } from 'styled-components'
-
-import styled from '../../../styles/styled/'
 
 export const Button = styled(ThorinButton)(
   ({ theme, variant }) => css`

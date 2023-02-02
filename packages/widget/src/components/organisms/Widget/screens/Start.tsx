@@ -7,7 +7,7 @@ import {
   usePrepareContractWrite,
 } from 'wagmi'
 import { Helper } from '@ensdomains/thorin'
-import { useEffect, useState } from 'react'
+import React from 'react'
 
 import {
   REGISTRAR_ABI,
@@ -49,8 +49,8 @@ export const Start = ({
   const { address, isConnected } = useAccount()
   const resolver = getResolverAddress(chain?.id)
 
-  const [isMounted, setIsMounted] = useState(false)
-  useEffect(() => {
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
     setIsMounted(true), []
 
     if (presetName) {
@@ -114,7 +114,7 @@ export const Start = ({
 
   const commit = useContractWrite(prepareCommit.config)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (commit.data) {
       setCommitHash(commit.data.hash)
     }

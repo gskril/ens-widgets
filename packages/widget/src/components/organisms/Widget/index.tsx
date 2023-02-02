@@ -1,6 +1,7 @@
 import { createClient, WagmiConfig } from 'wagmi'
 import { ThemeProvider } from 'styled-components'
 import { ThorinGlobalStyles } from '@ensdomains/thorin'
+import React from 'react'
 import useMeasure from 'react-use-measure'
 
 import { ConnectAction, Theme, WagmiClientConfig } from '../../../types'
