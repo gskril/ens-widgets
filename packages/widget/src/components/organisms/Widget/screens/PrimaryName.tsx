@@ -1,4 +1,3 @@
-import { css } from 'styled-components'
 import { Helper, mq, Typography } from '@ensdomains/thorin'
 import {
   useContractWrite,
@@ -7,6 +6,7 @@ import {
   useWaitForTransaction,
 } from 'wagmi'
 import { useEffect } from 'react'
+import styled, { css } from 'styled-components'
 
 import { Container, Button } from '../styles'
 import { getEtherscanLink } from '../../../../utils'
@@ -15,7 +15,6 @@ import {
   REVERSE_REGISTRAR_ABI,
 } from '../../../../contracts'
 import { Header } from '../../Header'
-import styled from '../../../../styles/styled/'
 
 const ButtonsColumn = styled.div(
   ({ theme }) => css`

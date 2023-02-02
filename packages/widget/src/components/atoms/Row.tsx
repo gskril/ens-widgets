@@ -1,7 +1,5 @@
 import { Typography } from '@ensdomains/thorin'
-import { css } from 'styled-components'
-
-import styled from '../../styles/styled/'
+import styled, { css } from 'styled-components'
 
 const StyledCard = styled.div(
   ({ theme }) => css`

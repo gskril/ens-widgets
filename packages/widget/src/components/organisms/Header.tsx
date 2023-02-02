@@ -1,8 +1,7 @@
-import { css } from 'styled-components'
 import { mq, Typography } from '@ensdomains/thorin'
+import styled, { css } from 'styled-components'
 
 import { Logo } from '../atoms/Icons'
-import styled from '../../styles/styled/'
 
 const Container = styled.div(
   ({ theme }) => css`

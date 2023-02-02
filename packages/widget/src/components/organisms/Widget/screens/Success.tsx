@@ -1,11 +1,10 @@
-import { css } from 'styled-components'
 import { Typography } from '@ensdomains/thorin'
 import { useAccount } from 'wagmi'
+import styled, { css } from 'styled-components'
 
 import { Link } from '../../../atoms/Link'
 import { Logo } from '../../../atoms/Icons'
 import { truncateAddress } from '../../../../utils'
-import styled from '../../../../styles/styled/'
 
 const Container = styled.div(
   ({ theme }) => css`
