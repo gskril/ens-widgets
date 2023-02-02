@@ -1,6 +1,5 @@
 import { CrossIcon, CheckIcon } from './Icons'
 import { mq } from '@ensdomains/thorin'
-import React from 'react'
 import styled, { css, DefaultTheme } from 'styled-components'
 
 const InputWrapper = styled.div(

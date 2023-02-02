@@ -1,6 +1,6 @@
 import { Spinner, Typography } from '@ensdomains/thorin'
-import React from 'react'
 import styled, { css } from 'styled-components'
+
 import { CheckIcon, CrossIcon } from './Icons'
 
 const Container = styled.div`

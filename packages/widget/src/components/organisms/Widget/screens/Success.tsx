@@ -1,11 +1,10 @@
 import { Typography } from '@ensdomains/thorin'
-import React from 'react'
+import { useAccount } from 'wagmi'
 import styled, { css } from 'styled-components'
 
 import { Link } from '../../../atoms/Link'
 import { Logo } from '../../../atoms/Icons'
 import { truncateAddress } from '../../../../utils'
-import { useAccount } from 'wagmi'
 
 const Container = styled.div(
   ({ theme }) => css`

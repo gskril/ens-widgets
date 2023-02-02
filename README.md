@@ -66,11 +66,9 @@ yarn install
 Start the code bundler for the component and the example Vite app
 
 ```bash
-yarn dev:example
-# then in another terminal window
+yarn dev:vite # or dev:next for a Next.js example
+# then in another terminal window:
 yarn dev:widget
-# or together
-yarn dev
 ```
 
 Any changes to [packages/widget](packages/widget) or [examples/vite](examples/vite) will auto-reload the page.

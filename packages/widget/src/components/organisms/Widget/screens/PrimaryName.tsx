@@ -5,7 +5,7 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from 'wagmi'
-import React from 'react'
+import { useEffect } from 'react'
 import styled, { css } from 'styled-components'
 
 import { Container, Button } from '../styles'
@@ -62,7 +62,7 @@ export const PrimaryName = ({
   const transaction = useContractWrite(prepare.config)
   const receipt = useWaitForTransaction(transaction.data)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (receipt.isSuccess) {
       setIsPrimaryNameSet(true)
     }
