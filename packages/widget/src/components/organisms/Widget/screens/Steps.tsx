@@ -8,7 +8,7 @@ import {
 } from 'wagmi'
 import { BigNumber } from 'ethers'
 import { parseEther } from 'ethers/lib/utils.js'
-import React from 'react'
+import { useState, useEffect } from 'react'
 
 import { Button, Container, RegistrationSteps } from '../styles'
 import { getEtherscanLink, parseDuration, parseName } from '../../../../utils'
@@ -46,7 +46,7 @@ export const Steps = ({
   })
 
   const timerStart = 60
-  const [timer, setTimer] = React.useState<number>(timerStart)
+  const [timer, setTimer] = useState<number>(timerStart)
 
   const { cost, rentEth } = useCost({
     name,
@@ -55,7 +55,7 @@ export const Steps = ({
   })
 
   // Once the commit is successful, start the countdown
-  React.useEffect(() => {
+  useEffect(() => {
     if (commitTx.isSuccess && timer > 0) {
       const interval = setInterval(() => {
         setTimer((prev) => prev - 1)
@@ -90,7 +90,7 @@ export const Steps = ({
   const registerTx = useWaitForTransaction(register.data)
 
   // Once the register transaction is successful, show success message
-  React.useEffect(() => {
+  useEffect(() => {
     if (registerTx.isSuccess) {
       setIsRegistrationSuccess(true)
     }

@@ -1,5 +1,6 @@
-import React from 'react'
-import styled, { css, DefaultTheme } from 'styled-components'
+import { css, DefaultTheme } from 'styled-components'
+
+import styled from '../../styles/styled/'
 
 const Container = styled.div(
   ({ theme }) => css`
