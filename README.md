@@ -20,10 +20,11 @@ npm install ens-widgets ethers wagmi
 
 ![ens-widget](https://user-images.githubusercontent.com/35093316/212418070-f595cb64-260b-4069-b191-5e2553b8cd6a.jpg)
 
+This component assumes your app is already wrapped in [`<WagmiConfig>`](https://wagmi.sh/docs/WagmiConfig) and either a [RainbowKit](https://www.rainbowkit.com/docs/installation#wrap-providers) or [ConnectKit](https://docs.family.co/connectkit/api-reference#connectkitprovider) provider.
+
 Required props:
 
 - `connectAction`: a [RainbowKit](https://www.rainbowkit.com/docs/modal-hooks) or [ConnectKit](https://docs.family.co/connectkit/api-reference#usemodal-hook) function that opens a wallet connect modal
-- `wagmiClientConfig`: the object you used to configure wagmi in your app ([like this](https://github.com/gskril/web3-starter/blob/main/src/providers.ts#L19-L23))
 
 Optional props:
 
@@ -36,20 +37,10 @@ Optional props:
 import { RegistrationWidget } from 'ens-widgets'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 
-const clientConfig = {
-  connectors: /* ... */,
-  provider: /* ... */,
-}
-
-const App = () => {
+export default function Page() {
   const { openConnectModal } = useConnectModal()
 
-  return (
-    <RegistrationWidget
-      connectAction={openConnectModal}
-      wagmiClientConfig={clientConfig}
-    />
-  )
+  return <RegistrationWidget connectAction={openConnectModal} />
 }
 ```
 
