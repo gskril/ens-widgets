@@ -15,7 +15,7 @@
     "clean": "yarn workspaces run clean && rm -rf node_modules",
     "build": "yarn workspace ens-widgets run build && yarn workspace vite-example run build",
     "build:widget": "yarn workspace ens-widgets run build && cp README.md packages/widget/README.md",
-    "prepublish": "yarn build:widget && cd packages/widget && yarn pack --filename widget.tgz && mkdir temp && tar -xf widget.tgz -C temp && cd temp/package && ls -R && cd ../../ && rm widget.tgz && rm -rf temp"
+    "prepublish": "rm -rf packages/widget/dist && yarn build:widget && cd packages/widget && yarn pack --filename widget.tgz && mkdir temp && tar -xf widget.tgz -C temp && cd temp/package && ls -R && cd ../../ && rm widget.tgz && rm -rf temp"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.0",
