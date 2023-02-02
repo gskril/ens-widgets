@@ -6,7 +6,7 @@ import styled from '../../styles/styled/'
 
 const InputWrapper = styled.div(
   ({ theme }) => css`
-    width: auto;
+    width: 100%;
     display: flex;
     position: relative;
     flex-direction: column;
