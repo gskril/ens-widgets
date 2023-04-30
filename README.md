@@ -31,6 +31,7 @@ Optional props:
 - `hasContainer`: if true (default), the widget will be wrapped in a container with padding and a border
 - `hasHeader`: if true (default), the widget will have a header with a title and link to [ens.domains](https://ens.domains/)
 - `name`: a preset name to register
+- `onStatusUpdate`: a callback that gives you access to the status of the registration process
 - `shadowless`: if true, the widget will not have a shadow
 - `theme`: easily choose between dark and light mode (defaults to light)
 - `trackingCode`: an ENS name that will be hashed and included in the transaction for on-chain analytics according to [ENSIP-14](https://docs.ens.domains/ens-improvement-proposals/ensip-14-platform-source-parameter)

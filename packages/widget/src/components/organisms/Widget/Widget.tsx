@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Card } from './styles'
-import { ConnectAction } from '../../../types'
+import { ConnectAction, WidgetStatus } from '../../../types'
 import { parseName } from '../../../utils'
 import { PrimaryName, Start, Steps, Success } from './screens'
 import { useCreateSecret } from '../../../hooks'
@@ -12,6 +12,7 @@ interface WidgetProps {
   hasContainer: boolean
   hasHeader: boolean
   presetName?: string
+  setStatus: (newStatus: WidgetStatus) => void
   trackingCode?: string
 }
 
@@ -22,6 +23,7 @@ const Widget = ({
   hasHeader,
   presetName,
   trackingCode,
+  setStatus,
   ...props
 }: WidgetProps) => {
   const secret = useCreateSecret(trackingCode)
@@ -32,6 +34,14 @@ const Widget = ({
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState<boolean>(false)
   const [isPrimaryNameSet, setIsPrimaryNameSet] = useState<boolean>(false)
   const [commitHash, setCommitHash] = useState<`0x${string}` | null>(null)
+
+  useEffect(() => {
+    if (isRegistrationSuccess) {
+      setStatus('success')
+    } else if (commitHash) {
+      setStatus('active')
+    }
+  }, [commitHash, isRegistrationSuccess])
 
   return (
     <Card

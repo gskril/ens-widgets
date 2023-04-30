@@ -1,15 +1,18 @@
 import { ThemeProvider } from 'styled-components'
+import { useState } from 'react'
 import useMeasure from 'react-use-measure'
 
 import { ConnectAction, Theme } from '../../../types'
 import { darkTheme, lightTheme } from '../../../styles/theme'
 import { WidgetContent } from './Widget'
+import { WidgetStatus } from '../../../types'
 
 interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   connectAction: ConnectAction
   hasContainer?: boolean
   hasHeader?: boolean
   name?: string
+  onStatusUpdate?: (status: WidgetStatus) => void
   shadowless?: boolean
   theme?: Theme
   trackingCode?: string
@@ -30,12 +33,22 @@ export const RegistrationWidget = ({
   hasContainer = true,
   hasHeader = true,
   name,
+  onStatusUpdate,
   shadowless = false,
   theme: widgetTheme,
   trackingCode,
   ...props
 }: WidgetProps) => {
   const [sizeRef, { height }] = useMeasure()
+  const [status, setStatus] = useState<WidgetStatus>('idle')
+
+  // Update the status and call the onStatusUpdate callback
+  const updateStatus = (newStatus: WidgetStatus) => {
+    setStatus(newStatus)
+    if (onStatusUpdate) {
+      onStatusUpdate(newStatus)
+    }
+  }
 
   return (
     <ThemeProvider theme={widgetTheme === 'dark' ? darkTheme : lightTheme}>
@@ -53,6 +66,7 @@ export const RegistrationWidget = ({
             hasContainer={hasContainer}
             hasHeader={hasHeader}
             presetName={name}
+            setStatus={updateStatus}
             trackingCode={trackingCode}
             {...props}
           />
