@@ -1,6 +1,6 @@
 {
   "name": "ens-widgets",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "React components for interacting with the Ethereum Name Service",
   "author": "Greg Skriloff",
   "scripts": {
