@@ -12,7 +12,7 @@ export default function Home() {
 
         <RegistrationWidget
           connectAction={openConnectModal}
-          trackingCode="demo"
+          trackingCode="demo.eth"
         />
       </div>
     </main>

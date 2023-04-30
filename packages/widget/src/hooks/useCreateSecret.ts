@@ -1,4 +1,5 @@
 import { Address } from 'wagmi'
+import { hash } from '@ensdomains/eth-ens-namehash'
 import { useEffect, useState } from 'react'
 
 /**
@@ -7,31 +8,22 @@ import { useEffect, useState } from 'react'
 export const useCreateSecret = (trackingCode?: string): Address => {
   const [secret, setSecret] = useState<string | null>('0x')
 
-  const baseHex = utf8ToHex('widget--')
-  const baseBytes = baseHex.length / 2
+  const baseHashFull = hash('enswidgets.eth')
+  const baseHash = baseHashFull.slice(2, 10)
 
-  const trackingHex = utf8ToHex(trackingCode || '')
-  const trackingBytes = trackingHex.length / 2
+  const randomFallback = Math.random().toString(16)
+  const appHashFull = hash(trackingCode || randomFallback)
+  const appHash = appHashFull.slice(2, 10)
 
-  const totalHex = baseHex + trackingHex
-  const totalBytes = baseBytes + trackingBytes
-
-  // Reserve a minimum of 8 bytes for the random secret
-  if (trackingCode) {
-    if (trackingBytes < 4 || totalBytes > 24) {
-      throw new Error('Tracking code must be between 4 and 16 bytes')
-    }
-  }
+  const trackingHash = baseHash + appHash // 8 bytes, 16 chars
 
   useEffect(() => {
-    const bytes = window.crypto.getRandomValues(new Uint8Array(32 - totalBytes))
+    const bytes = window.crypto.getRandomValues(new Uint8Array(32 - 8))
     const hex = Array.from(bytes, (byte) =>
       byte.toString(16).padStart(2, '0')
     ).join('')
 
-    setSecret('0x' + totalHex + hex)
+    setSecret('0x' + trackingHash + hex)
   }, [])
   return secret as `0x${string}`
 }
-
-const utf8ToHex = (str: string) => Buffer.from(str, 'utf8').toString('hex')
