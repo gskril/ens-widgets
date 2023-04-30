@@ -45,7 +45,6 @@ export const Card = styled.div<CardProps>(
 
     ${mq.xs.max(css`
       gap: ${theme.space[3]};
-      padding: ${theme.space[3]};
     `)}
 
     ${hasContainer &&
@@ -56,6 +55,10 @@ export const Card = styled.div<CardProps>(
       box-shadow: ${theme.boxShadows.primary};
       border-radius: ${theme.radii.large};
       padding: 1.25rem;
+
+      ${mq.xs.max(css`
+        padding: ${theme.space[3]};
+      `)}
     `}
 
     ${shadowless &&
