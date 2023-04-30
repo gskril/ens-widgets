@@ -1,4 +1,3 @@
-import 'styled-components'
 import {
   darkTheme as thorinDarkTheme,
   lightTheme as thorinLightTheme,

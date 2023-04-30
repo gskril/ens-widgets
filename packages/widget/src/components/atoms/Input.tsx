@@ -1,6 +1,6 @@
 import { CrossIcon, CheckIcon } from './Icons'
 import { mq } from '@ensdomains/thorin'
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const InputWrapper = styled.div(
   ({ theme }) => css`
@@ -97,13 +97,8 @@ const Counter = styled.button(
   `
 )
 
-interface ValidationIconProps {
-  theme: DefaultTheme
-  isValid?: boolean | undefined
-}
-
-const ValidationIconWrapper = styled.div(
-  ({ theme, isValid }: ValidationIconProps) => css`
+const ValidationIconWrapper = styled.div<{ isValid?: boolean | undefined }>(
+  ({ theme, isValid }) => css`
     display: flex;
     padding: 0.1875rem;
     justify-content: center;

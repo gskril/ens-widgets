@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Container = styled.div(
   ({ theme }) => css`
@@ -11,8 +11,8 @@ const Container = styled.div(
   `
 )
 
-const Loader = styled.div(
-  ({ progress, theme }: { progress: number; theme: DefaultTheme }) => css`
+const Loader = styled.div<{ progress: number }>(
+  ({ progress, theme }) => css`
     position: absolute;
     top: 0;
     left: 0;
