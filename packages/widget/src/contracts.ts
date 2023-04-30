@@ -125,8 +125,8 @@ export const REGISTRAR_ABI = [
 
 export const getReverseRegistrarAddress = (chainId: number | undefined) => {
   return chainId === 5
-    ? '0x9a879320A9F7ad2BBb02063d67baF5551D6BD8B0'
-    : '0x084b1c3c81545d370f3634392de611caabff8148'
+    ? '0x4f7A657451358a22dc397d5eE7981FfC526cd856'
+    : '0xa58E81fe9b61B5c3fE2AFD33CF304c454AbFc7Cb'
 }
 
 export const REVERSE_REGISTRAR_ABI = [
