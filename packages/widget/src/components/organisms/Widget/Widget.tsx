@@ -8,7 +8,9 @@ import { useCreateSecret } from '../../../hooks'
 
 interface WidgetProps {
   connectAction: ConnectAction
-  containerShadowless?: true
+  containerShadowless: boolean
+  hasContainer: boolean
+  hasHeader: boolean
   presetName?: string
   trackingCode?: string
 }
@@ -16,6 +18,8 @@ interface WidgetProps {
 const Widget = ({
   connectAction,
   containerShadowless,
+  hasContainer,
+  hasHeader,
   presetName,
   trackingCode,
   ...props
@@ -30,7 +34,11 @@ const Widget = ({
   const [commitHash, setCommitHash] = useState<`0x${string}` | null>(null)
 
   return (
-    <Card {...props} shadowless={containerShadowless}>
+    <Card
+      {...props}
+      hasContainer={hasContainer}
+      shadowless={containerShadowless}
+    >
       {isPrimaryNameSet ? (
         // Final screen
         <Success name={parseName(name)} />
@@ -39,6 +47,7 @@ const Widget = ({
         <PrimaryName
           name={parseName(name)}
           setIsPrimaryNameSet={setIsPrimaryNameSet}
+          hasHeader={hasHeader}
         />
       ) : commitHash ? (
         // Second screen - registration has started
@@ -48,6 +57,7 @@ const Widget = ({
           name={name}
           secret={secret}
           setIsRegistrationSuccess={setIsRegistrationSuccess}
+          hasHeader={hasHeader}
         />
       ) : (
         // First screen - prepare registration
@@ -60,6 +70,7 @@ const Widget = ({
           setCommitHash={setCommitHash}
           setDuration={setDuration}
           setName={setName}
+          hasHeader={hasHeader}
         />
       )}
     </Card>

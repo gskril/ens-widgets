@@ -30,6 +30,7 @@ interface StepsProps {
   name: string
   secret: Address
   setIsRegistrationSuccess: React.Dispatch<React.SetStateAction<boolean>>
+  hasHeader: boolean
 }
 
 export const Steps = ({
@@ -38,6 +39,7 @@ export const Steps = ({
   name,
   secret,
   setIsRegistrationSuccess,
+  hasHeader,
 }: StepsProps) => {
   const { chain } = useNetwork()
   const { address, isConnected } = useAccount()
@@ -104,7 +106,7 @@ export const Steps = ({
 
   return (
     <Container>
-      <Header />
+      {hasHeader && <Header />}
 
       <Rows data={rowData} />
 

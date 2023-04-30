@@ -1,5 +1,5 @@
 import { Button as ThorinButton, mq } from '@ensdomains/thorin'
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const Button = styled(ThorinButton)(
   ({ theme, variant }) => css`
@@ -35,28 +35,33 @@ export const Button = styled(ThorinButton)(
 )
 
 interface CardProps {
-  theme: DefaultTheme
-  shadowless?: true
+  hasContainer: boolean
+  shadowless: boolean
 }
 
-export const Card = styled.div(
-  ({ theme, shadowless }: CardProps) => css`
+export const Card = styled.div<CardProps>(
+  ({ theme, hasContainer, shadowless }) => css`
     width: 100%;
-    border: ${theme.borderWidths['0.375']} solid ${theme.colors.borderSecondary};
-    background-color: ${theme.colors.backgroundSecondary};
-    box-shadow: ${theme.boxShadows.primary};
-    border-radius: ${theme.radii.large};
-    padding: 1.25rem;
-
-    ${shadowless &&
-    css`
-      box-shadow: none;
-    `}
 
     ${mq.xs.max(css`
       gap: ${theme.space[3]};
       padding: ${theme.space[3]};
     `)}
+
+    ${hasContainer &&
+    css`
+      border: ${theme.borderWidths['0.375']} solid
+        ${theme.colors.borderSecondary};
+      background-color: ${theme.colors.backgroundSecondary};
+      box-shadow: ${theme.boxShadows.primary};
+      border-radius: ${theme.radii.large};
+      padding: 1.25rem;
+    `}
+
+    ${shadowless &&
+    css`
+      box-shadow: none;
+    `}
   `
 )
 

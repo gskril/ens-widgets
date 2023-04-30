@@ -28,6 +28,8 @@ Required props:
 
 Optional props:
 
+- `hasContainer`: if true (default), the widget will be wrapped in a container with padding and a border
+- `hasHeader`: if true (default), the widget will have a header with a title and link to [ens.domains](https://ens.domains/)
 - `name`: a preset name to register
 - `shadowless`: if true, the widget will not have a shadow
 - `theme`: easily choose between dark and light mode (defaults to light)

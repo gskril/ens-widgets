@@ -24,6 +24,7 @@ import { useCost, useDebounce, useNormalizeName } from '../../../../hooks'
 interface StartProps {
   connectAction: ConnectAction
   duration: string
+  hasHeader: boolean
   name: string
   presetName: string | undefined
   secret: `0x${string}`
@@ -35,6 +36,7 @@ interface StartProps {
 export const Start = ({
   connectAction,
   duration,
+  hasHeader,
   name,
   presetName,
   secret,
@@ -134,7 +136,7 @@ export const Start = ({
         commit.write?.()
       }}
     >
-      <Header />
+      {hasHeader && <Header />}
 
       <Inputs>
         <Input

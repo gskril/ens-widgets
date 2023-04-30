@@ -42,11 +42,13 @@ const ButtonsColumn = styled.div(
 )
 
 interface PrimaryNameProps {
+  hasHeader: boolean
   name: string
   setIsPrimaryNameSet: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const PrimaryName = ({
+  hasHeader,
   name,
   setIsPrimaryNameSet,
 }: PrimaryNameProps) => {
@@ -70,7 +72,7 @@ export const PrimaryName = ({
 
   return (
     <Container>
-      <Header />
+      {hasHeader && <Header />}
 
       <Typography as="p">
         To improve your web3 experience, set your Primary ENS Name.
