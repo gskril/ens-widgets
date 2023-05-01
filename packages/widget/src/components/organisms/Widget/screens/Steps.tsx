@@ -15,9 +15,9 @@ import { getEtherscanLink, parseDuration, parseName } from '../../../../utils'
 import { Header } from '../../Header'
 import { Progress } from '../../../atoms/Progress'
 import {
+  getRegistrarAddress,
   getResolverAddress,
   REGISTRAR_ABI,
-  REGISTRAR_ADDRESS,
   REGISTRATION_GAS_AMOUNT,
 } from '../../../../contracts'
 import { Rows } from '../../../atoms/Row'
@@ -68,18 +68,21 @@ export const Steps = ({
   }, [commitTx.isSuccess])
 
   const resolver = getResolverAddress(chain?.id)
+  const registrar = getRegistrarAddress(chain?.id)
 
   const prepareRegister = usePrepareContractWrite({
-    address: REGISTRAR_ADDRESS,
+    address: registrar,
     abi: REGISTRAR_ABI,
-    functionName: 'registerWithConfig',
+    functionName: 'register',
     args: [
       parseName(name),
       address || '0x',
       parseDuration(duration) as unknown as BigNumber,
       secret,
       resolver,
-      address || '0x',
+      [],
+      false,
+      0,
     ],
     overrides: {
       value: parseEther((Number(rentEth)! * 1.05).toFixed(12).toString()),

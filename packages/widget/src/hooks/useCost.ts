@@ -1,11 +1,11 @@
 import { BigNumber, utils } from 'ethers'
 import { parseDuration, parseName } from '../utils'
 import {
+  getRegistrarAddress,
   REGISTRAR_ABI,
-  REGISTRAR_ADDRESS,
   TOTAL_GAS_AMOUNT,
 } from '../contracts'
-import { useContractRead } from 'wagmi'
+import { useContractRead, useNetwork } from 'wagmi'
 import { useFetch } from './useFetch'
 
 interface Cost {
@@ -28,6 +28,7 @@ export const useCost = ({
 }: Cost): CostReturn => {
   const enabled = isConnected && _name && duration ? true : false
 
+  const { chain } = useNetwork()
   const { data: gasbest } = useFetch<any>(
     enabled ? 'https://gas.best/stats' : undefined
   )
@@ -37,16 +38,17 @@ export const useCost = ({
 
   const name = parseName(_name)
   const seconds = parseDuration(duration)
+  const registrar = getRegistrarAddress(chain?.id)
 
   const { data: rentPrice, isError: isRentPriceError } = useContractRead({
     abi: REGISTRAR_ABI,
-    address: REGISTRAR_ADDRESS,
+    address: registrar,
     functionName: 'rentPrice',
     args: [name, seconds as unknown as BigNumber],
     enabled,
   })
 
-  const rentPriceInEth = rentPrice ? utils.formatEther(rentPrice) : null
+  const rentPriceInEth = rentPrice ? utils.formatEther(rentPrice.base) : null
   const gasCostInGwei = gasPrice ? gasPrice * TOTAL_GAS_AMOUNT : null
   const gasCostInEth = gasCostInGwei ? gasCostInGwei / 1e9 : null
   const finalCostEth = Number(rentPriceInEth) + Number(gasCostInEth)

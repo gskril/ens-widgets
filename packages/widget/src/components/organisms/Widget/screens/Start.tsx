@@ -11,15 +11,16 @@ import { useEffect, useState } from 'react'
 
 import {
   REGISTRAR_ABI,
-  REGISTRAR_ADDRESS,
+  getRegistrarAddress,
   getResolverAddress,
 } from '../../../../contracts'
 import { Button, Container, Inputs } from '../styles'
 import { ConnectAction } from '../../../../types'
 import { Header } from '../../Header'
 import { Input } from '../../../atoms/Input'
-import { parseName } from '../../../../utils'
+import { parseDuration, parseName } from '../../../../utils'
 import { useCost, useDebounce, useNormalizeName } from '../../../../hooks'
+import { BigNumber } from 'ethers'
 
 interface StartProps {
   connectAction: ConnectAction
@@ -50,6 +51,7 @@ export const Start = ({
   const { chain } = useNetwork()
   const { address, isConnected } = useAccount()
   const resolver = getResolverAddress(chain?.id)
+  const registrar = getRegistrarAddress(chain?.id)
 
   const [isMounted, setIsMounted] = useState(false)
   useEffect(() => {
@@ -71,7 +73,7 @@ export const Start = ({
   })
 
   const available = useContractRead({
-    address: REGISTRAR_ADDRESS,
+    address: registrar,
     abi: REGISTRAR_ABI,
     functionName: 'available',
     args: debouncedName ? [parseName(debouncedName)] : undefined,
@@ -93,21 +95,24 @@ export const Start = ({
   const isValid = checkIsValid()
 
   const makeCommitment = useContractRead({
-    address: REGISTRAR_ADDRESS,
+    address: registrar,
     abi: REGISTRAR_ABI,
-    functionName: 'makeCommitmentWithConfig',
+    functionName: 'makeCommitment',
     args: [
       parseName(debouncedName),
       address || '0x',
+      parseDuration(duration) as unknown as BigNumber,
       secret,
       resolver,
-      address || '0x',
+      [],
+      false,
+      0,
     ],
     enabled: !!debouncedName && !!address && !!available.data,
   })
 
   const prepareCommit = usePrepareContractWrite({
-    address: REGISTRAR_ADDRESS,
+    address: registrar,
     abi: REGISTRAR_ABI,
     functionName: 'commit',
     args: [makeCommitment.data!],
