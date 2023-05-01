@@ -1,5 +1,5 @@
 import { Address } from 'wagmi'
-import { hash } from '@ensdomains/eth-ens-namehash'
+import { namehash } from 'ethers/lib/utils'
 import { useEffect, useState } from 'react'
 
 /**
@@ -8,11 +8,11 @@ import { useEffect, useState } from 'react'
 export const useCreateSecret = (trackingCode?: string): Address => {
   const [secret, setSecret] = useState<string | null>('0x')
 
-  const baseHashFull = hash('enswidgets.eth')
+  const baseHashFull = namehash('enswidgets.eth')
   const baseHash = baseHashFull.slice(2, 10)
 
   const randomFallback = Math.random().toString(16)
-  const appHashFull = hash(trackingCode || randomFallback)
+  const appHashFull = namehash(trackingCode || randomFallback)
   const appHash = appHashFull.slice(2, 10)
 
   const trackingHash = baseHash + appHash // 8 bytes, 16 chars

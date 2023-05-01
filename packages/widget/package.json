@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@adraffy/ens-normalize": "^1.8.6",
-    "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ensdomains/thorin": "^0.6.20",
     "react-transition-state": "^2.0.2",
     "react-use-measure": "^2.1.1",

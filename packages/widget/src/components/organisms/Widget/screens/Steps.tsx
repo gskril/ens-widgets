@@ -11,7 +11,12 @@ import { parseEther } from 'ethers/lib/utils.js'
 import { useState, useEffect } from 'react'
 
 import { Button, Container, RegistrationSteps } from '../styles'
-import { getEtherscanLink, parseDuration, parseName } from '../../../../utils'
+import {
+  getEtherscanLink,
+  getSetAddrData,
+  parseDuration,
+  parseName,
+} from '../../../../utils'
 import { Header } from '../../Header'
 import { Progress } from '../../../atoms/Progress'
 import {
@@ -80,7 +85,7 @@ export const Steps = ({
       parseDuration(duration) as unknown as BigNumber,
       secret,
       resolver,
-      [],
+      [getSetAddrData(address, parseName(name))],
       false,
       0,
     ],

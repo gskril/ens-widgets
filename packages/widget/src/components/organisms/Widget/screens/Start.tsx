@@ -18,7 +18,7 @@ import { Button, Container, Inputs } from '../styles'
 import { ConnectAction } from '../../../../types'
 import { Header } from '../../Header'
 import { Input } from '../../../atoms/Input'
-import { parseDuration, parseName } from '../../../../utils'
+import { getSetAddrData, parseDuration, parseName } from '../../../../utils'
 import { useCost, useDebounce, useNormalizeName } from '../../../../hooks'
 import { BigNumber } from 'ethers'
 
@@ -104,7 +104,7 @@ export const Start = ({
       parseDuration(duration) as unknown as BigNumber,
       secret,
       resolver,
-      [],
+      [getSetAddrData(address, parseName(debouncedName))],
       false,
       0,
     ],

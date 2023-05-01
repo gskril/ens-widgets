@@ -1,6 +1,7 @@
 import { Address, Chain } from 'wagmi'
 import { SECONDS_PER_YEAR } from './contracts'
 import { SendTransactionResult } from '@wagmi/core'
+import { AbiCoder, namehash } from 'ethers/lib/utils'
 
 /**
  * Parses a string of years and returns a string of seconds
@@ -34,4 +35,20 @@ export const getEtherscanLink = (
 
 export const truncateAddress = (address: string) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`
+}
+
+const abiCoder = new AbiCoder()
+
+export const getSetAddrData = (address?: string, name?: string) => {
+  if (!name || !address) {
+    return '0x'
+  }
+
+  const encodedData = abiCoder.encode(
+    ['bytes32', 'uint256', 'bytes'],
+    [namehash(name + '.eth'), 60, address]
+  ) as `0x${string}`
+
+  const formattedData = '0x8b95dd71' + encodedData.slice(2)
+  return formattedData as `0x${string}`
 }
