@@ -5,6 +5,7 @@ export const Button = styled(ThorinButton)(
   ({ colorStyle, theme }) => css`
     border: none;
     color: #fff;
+    line-height: 1.5;
     letter-spacing: -0.015em;
     font-family: ${theme.fonts.sans};
     font-size: ${theme.fontSizes.large};

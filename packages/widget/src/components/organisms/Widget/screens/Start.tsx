@@ -21,16 +21,19 @@ import { Input } from '../../../atoms/Input'
 import { getSetAddrData, parseDuration, parseName } from '../../../../utils'
 import { useCost, useDebounce, useNormalizeName } from '../../../../hooks'
 import { BigNumber } from 'ethers'
+import { Toggle } from '../../../atoms/Toggle'
 
 interface StartProps {
   connectAction: ConnectAction
   duration: string
   hasHeader: boolean
+  isPrimaryNameChecked: boolean
   name: string
   presetName: string | undefined
   secret: `0x${string}`
   setCommitHash: React.Dispatch<React.SetStateAction<Address | null>>
   setDuration: React.Dispatch<React.SetStateAction<string>>
+  setIsPrimaryNameChecked: React.Dispatch<React.SetStateAction<boolean>>
   setName: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -38,11 +41,13 @@ export const Start = ({
   connectAction,
   duration,
   hasHeader,
+  isPrimaryNameChecked,
   name,
   presetName,
   secret,
   setCommitHash,
   setDuration,
+  setIsPrimaryNameChecked,
   setName,
 }: StartProps) => {
   const debouncedName = useDebounce<string>(name, 500)
@@ -105,7 +110,7 @@ export const Start = ({
       secret,
       resolver,
       [getSetAddrData(address, parseName(debouncedName))],
-      false,
+      isPrimaryNameChecked,
       0,
     ],
     enabled: !!debouncedName && !!address && !!available.data,
@@ -160,6 +165,12 @@ export const Start = ({
           placeholder="1 year"
           value={duration}
           setValue={setDuration}
+        />
+
+        <Toggle
+          label="Set primary name"
+          checked={isPrimaryNameChecked}
+          onChange={setIsPrimaryNameChecked}
         />
       </Inputs>
 

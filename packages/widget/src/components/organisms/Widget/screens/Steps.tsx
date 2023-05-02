@@ -32,19 +32,21 @@ import { useCost } from '../../../../hooks'
 interface StepsProps {
   commitHash: Address
   duration: string
+  hasHeader: boolean
+  isPrimaryNameChecked: boolean
   name: string
   secret: Address
   setIsRegistrationSuccess: React.Dispatch<React.SetStateAction<boolean>>
-  hasHeader: boolean
 }
 
 export const Steps = ({
   commitHash,
   duration,
+  hasHeader,
+  isPrimaryNameChecked,
   name,
   secret,
   setIsRegistrationSuccess,
-  hasHeader,
 }: StepsProps) => {
   const { chain } = useNetwork()
   const { address, isConnected } = useAccount()
@@ -86,12 +88,14 @@ export const Steps = ({
       secret,
       resolver,
       [getSetAddrData(address, parseName(name))],
-      false,
+      isPrimaryNameChecked,
       0,
     ],
     overrides: {
       value: parseEther((Number(rentEth)! * 1.05).toFixed(12).toString()),
-      gasLimit: BigNumber.from(REGISTRATION_GAS_AMOUNT),
+      gasLimit: BigNumber.from(
+        REGISTRATION_GAS_AMOUNT + (isPrimaryNameChecked ? 100_000 : 0)
+      ),
     },
     enabled: timer < 5,
   })

@@ -34,6 +34,7 @@ const Widget = ({
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState<boolean>(false)
   const [isPrimaryNameSet, setIsPrimaryNameSet] = useState<boolean>(false)
   const [commitHash, setCommitHash] = useState<`0x${string}` | null>(null)
+  const [isPrimaryNameChecked, setIsPrimaryNameChecked] = useState(false)
 
   useEffect(() => {
     if (isRegistrationSuccess) {
@@ -49,7 +50,7 @@ const Widget = ({
       hasContainer={hasContainer}
       shadowless={containerShadowless}
     >
-      {isPrimaryNameSet ? (
+      {isPrimaryNameSet || (isRegistrationSuccess && isPrimaryNameChecked) ? (
         // Final screen
         <Success name={parseName(name)} />
       ) : isRegistrationSuccess ? (
@@ -64,23 +65,26 @@ const Widget = ({
         <Steps
           commitHash={commitHash}
           duration={duration}
+          hasHeader={hasHeader}
+          isPrimaryNameChecked={isPrimaryNameChecked}
           name={name}
           secret={secret}
           setIsRegistrationSuccess={setIsRegistrationSuccess}
-          hasHeader={hasHeader}
         />
       ) : (
         // First screen - prepare registration
         <Start
           connectAction={connectAction}
           duration={duration}
+          hasHeader={hasHeader}
+          isPrimaryNameChecked={isPrimaryNameChecked}
           name={name}
           presetName={presetName}
           secret={secret}
           setCommitHash={setCommitHash}
           setDuration={setDuration}
+          setIsPrimaryNameChecked={setIsPrimaryNameChecked}
           setName={setName}
-          hasHeader={hasHeader}
         />
       )}
     </Card>

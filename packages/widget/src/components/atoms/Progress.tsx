@@ -29,7 +29,7 @@ const Loader = styled.div<{ progress: number }>(
 export const Progress = ({ percentage }: { percentage: number }) => {
   return (
     <Container>
-      <Loader progress={percentage} />
+      <Loader progress={Math.min(percentage, 100)} />
     </Container>
   )
 }

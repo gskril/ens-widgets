@@ -22,15 +22,22 @@ const InputWrapper = styled.div(
   `
 )
 
-const Label = styled.label(
-  ({ theme }) => css`
+export const Label = styled.label<{ size?: 'lg' }>(
+  ({ size, theme }) => css`
     font-size: 15px;
     font-family: ${theme.fonts.sans};
     font-weight: 400;
     color: ${theme.colors.textTertiary};
     text-align: left;
+
+    ${size === 'lg' &&
+    css`
+      font-size: ${theme.fontSizes.large};
+      font-weight: ${theme.fontWeights.normal};
+    `}
   `
 )
+
 const StyledInput = styled.input(
   ({ theme }) => css`
     font-family: ${theme.fonts.sans};
