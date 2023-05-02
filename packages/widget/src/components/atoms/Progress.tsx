@@ -17,7 +17,6 @@ const Loader = styled.div<{ progress: number }>(
     top: 0;
     left: 0;
     height: 100%;
-    width: ${progress}%;
     border-radius: ${theme.radii.medium};
     transition: all 0.15s ease-in-out;
     background-color: ${progress >= 100
@@ -29,7 +28,12 @@ const Loader = styled.div<{ progress: number }>(
 export const Progress = ({ percentage }: { percentage: number }) => {
   return (
     <Container>
-      <Loader progress={Math.min(percentage, 100)} />
+      <Loader
+        progress={Math.min(percentage, 100)}
+        style={{
+          width: `${Math.min(percentage, 100)}%`,
+        }}
+      />
     </Container>
   )
 }

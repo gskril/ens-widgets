@@ -8,6 +8,7 @@ import {
 } from 'wagmi'
 import { Helper } from '@ensdomains/thorin'
 import { useEffect, useState } from 'react'
+import { BigNumber } from 'ethers'
 
 import {
   REGISTRAR_ABI,
@@ -20,7 +21,6 @@ import { Header } from '../../Header'
 import { Input } from '../../../atoms/Input'
 import { getSetAddrData, parseDuration, parseName } from '../../../../utils'
 import { useCost, useDebounce, useNormalizeName } from '../../../../hooks'
-import { BigNumber } from 'ethers'
 import { Toggle } from '../../../atoms/Toggle'
 
 interface StartProps {

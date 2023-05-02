@@ -16,7 +16,7 @@ const InputGroup = styled.div(
 
       height: ${theme.space[8]};
       width: ${theme.space[12]};
-      background-color: ${theme.colors.grey};
+      background-color: ${theme.colors.greyBright};
       transition: background-color 0.1s ease-in-out 0s;
       display: flex;
       align-items: center;
