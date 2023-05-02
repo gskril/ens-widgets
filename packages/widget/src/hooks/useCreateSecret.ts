@@ -1,5 +1,5 @@
 import { Address } from 'wagmi'
-import { namehash } from 'ethers/lib/utils'
+import { namehash } from 'ethers/lib/utils.js'
 import { useEffect, useState } from 'react'
 
 /**

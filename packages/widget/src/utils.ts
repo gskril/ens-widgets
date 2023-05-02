@@ -1,7 +1,7 @@
 import { Address, Chain } from 'wagmi'
 import { SECONDS_PER_YEAR } from './contracts'
 import { SendTransactionResult } from '@wagmi/core'
-import { AbiCoder, namehash } from 'ethers/lib/utils'
+import { AbiCoder, namehash } from 'ethers/lib/utils.js'
 
 /**
  * Parses a string of years and returns a string of seconds
