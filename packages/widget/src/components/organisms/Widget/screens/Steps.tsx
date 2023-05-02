@@ -130,8 +130,8 @@ export const Steps = ({
       ) : registerTx.isLoading ? (
         // Show etherscan link for registration
         <Button
-          shadowless
-          variant="secondary"
+          shadow={false}
+          colorStyle="accentSecondary"
           onClick={() => {
             window.open(getEtherscanLink(register.data, chain), '_blank')
           }}
@@ -141,9 +141,8 @@ export const Steps = ({
       ) : commitTx.isSuccess && timer < 1 ? (
         // Show registerWithConfig button
         <Button
-          variant="primary"
+          colorStyle={register.isError ? 'redPrimary' : 'accentPrimary'}
           loading={register.isLoading}
-          tone={register.isError ? 'red' : 'accent'}
           onClick={() => register.write?.()}
           disabled={!register}
         >
@@ -155,14 +154,14 @@ export const Steps = ({
         </Button>
       ) : commitTx.isSuccess && timer > 0 ? (
         // Show countdown
-        <Button variant="secondary" disabled shadowless>
+        <Button colorStyle="accentSecondary" disabled shadow={false}>
           Waiting...
         </Button>
       ) : (
         // Show etherscan link for commit
         <Button
-          shadowless
-          variant="secondary"
+          shadow={false}
+          colorStyle="accentSecondary"
           onClick={() => {
             window.open(getEtherscanLink(commitHash, chain), '_blank')
           }}

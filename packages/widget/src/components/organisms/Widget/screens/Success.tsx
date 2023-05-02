@@ -33,7 +33,7 @@ const Container = styled.div(
 const Heading = styled(Typography)(
   ({ theme }) => css`
     font-size: ${theme.fontSizes.headingThree};
-    font-weight: ${theme.fontWeights.semiBold};
+    font-weight: ${theme.fontWeights.bold};
   `
 )
 
@@ -65,13 +65,13 @@ export const Success = ({ name }: RegistrationSuccessProps) => {
 
       <div>
         {address && (
-          <Typography as="p">
+          <Typography asProp="p">
             {name}.eth will now point to{' '}
             <span title={address}>{truncateAddress(address)}</span> across web3.
           </Typography>
         )}
 
-        <Typography as="p">
+        <Typography asProp="p">
           Configure your name further at{' '}
           <Link to={`https://app.ens.domains/name/${name}.eth`}>
             app.ens.domains

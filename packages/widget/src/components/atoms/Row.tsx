@@ -8,11 +8,11 @@ const StyledCard = styled.div(
     align-items: center;
     gap: ${theme.space[4]};
     padding: ${theme.space[3]} ${theme.space[4]};
-    font-weight: ${theme.fontWeights.medium};
+    font-weight: ${theme.fontWeights.normal};
     border-radius: ${theme.radii.medium};
     color: ${theme.colors.textSecondary};
     box-shadow: ${theme.boxShadows['0.02']};
-    border: ${theme.borderWidths['0.375']} solid ${theme.colors.borderSecondary};
+    border: ${theme.borderWidths['0.375']} solid ${theme.colors.background};
   `
 )
 
@@ -25,14 +25,14 @@ export const Row = ({ name, value }: RowProps) => {
   return (
     <StyledCard>
       <Typography
-        as="span"
+        asProp="span"
         style={{
           color: 'inherit',
         }}
       >
         {name}
       </Typography>
-      <Typography as="span">{value}</Typography>
+      <Typography asProp="span">{value}</Typography>
     </StyledCard>
   )
 }

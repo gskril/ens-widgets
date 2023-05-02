@@ -11,7 +11,17 @@ const Container = styled.div(
     font-size: ${theme.fontSizes.large};
 
     ${mq.xs.max(css`
-      font-size: ${theme.fontSizes.base};
+      font-size: ${theme.fontSizes.body};
+    `)}
+  `
+)
+
+const Title = styled(Typography)(
+  ({ theme }) => css`
+    font-size: ${theme.fontSizes.large};
+
+    ${mq.xs.max(css`
+      font-size: ${theme.fontSizes.body};
     `)}
   `
 )
@@ -28,9 +38,9 @@ const LogoWrapper = styled.div`
 export const Header = () => {
   return (
     <Container>
-      <Typography as="label" weight="semiBold" style={{ lineHeight: 1 }}>
+      <Title asProp="label" weight="bold" style={{ lineHeight: 1 }}>
         Register an .eth name
-      </Typography>
+      </Title>
       <LogoWrapper as="a" href="http://ens.domains/" target="_blank">
         <Logo />
       </LogoWrapper>

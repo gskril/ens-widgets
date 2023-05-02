@@ -2,23 +2,23 @@ import { Button as ThorinButton, mq } from '@ensdomains/thorin'
 import styled, { css } from 'styled-components'
 
 export const Button = styled(ThorinButton)(
-  ({ theme, variant }) => css`
+  ({ colorStyle, theme }) => css`
     border: none;
-    color: ${theme.colors.white};
+    color: #fff;
+    letter-spacing: -0.015em;
+    font-family: ${theme.fonts.sans};
+    font-size: ${theme.fontSizes.large};
 
     svg {
-      stroke: ${theme.colors.white};
+      stroke: #fff;
     }
 
     &:disabled {
-      ${variant === 'primary' &&
-      css`
-        color: ${theme.colors.white};
-        background-color: ${theme.colors.accent};
-      `}
+      color: #fff;
+      background-color: ${theme.colors.accent};
     }
 
-    ${variant === 'secondary' &&
+    ${colorStyle === 'accentSecondary' &&
     css`
       color: ${theme.colors.accent};
 
@@ -28,7 +28,47 @@ export const Button = styled(ThorinButton)(
 
       &:disabled {
         color: ${theme.colors.accent};
-        background-color: ${theme.colors.accentSecondaryHover};
+        background-color: ${theme.colors.accentSurface};
+      }
+    `}
+
+    ${colorStyle === 'redPrimary' &&
+    css`
+      color: #fff;
+
+      &:disabled {
+        color: #fff;
+        background-color: ${theme.colors.red};
+      }
+    `}
+
+    ${colorStyle === 'redSecondary' &&
+    css`
+      color: ${theme.colors.red};
+
+      &:disabled {
+        color: ${theme.colors.red};
+        background-color: ${theme.colors.redSurface};
+      }
+    `}
+
+    ${colorStyle === 'greenPrimary' &&
+    css`
+      color: #fff;
+
+      &:disabled {
+        color: #fff;
+        background-color: ${theme.colors.green};
+      }
+    `}
+
+    ${colorStyle === 'greenSecondary' &&
+    css`
+      color: ${theme.colors.green};
+
+      &:disabled {
+        color: ${theme.colors.green};
+        background-color: ${theme.colors.greenSurface};
       }
     `}
   `
@@ -49,10 +89,9 @@ export const Card = styled.div<CardProps>(
 
     ${hasContainer &&
     css`
-      border: ${theme.borderWidths['0.375']} solid
-        ${theme.colors.borderSecondary};
+      border: ${theme.borderWidths['0.375']} solid ${theme.colors.border};
       background-color: ${theme.colors.backgroundSecondary};
-      box-shadow: ${theme.boxShadows.primary};
+      box-shadow: 1px 4px 26px rgba(78, 162, 240, 0.25);
       border-radius: ${theme.radii.large};
       padding: 1.25rem;
 

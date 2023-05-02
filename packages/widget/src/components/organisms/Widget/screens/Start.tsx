@@ -168,14 +168,13 @@ export const Start = ({
           <div>Unable to read from ENS Registrar</div>
         </Helper>
       ) : !isConnected || !isMounted ? (
-        <Button shadowless variant="secondary" type="submit">
+        <Button shadow={false} colorStyle="accentSecondary" type="submit">
           Connect Wallet
         </Button>
       ) : (
         <>
           <Button
-            variant="primary"
-            tone={commit.isError ? 'red' : 'accent'}
+            colorStyle={commit.isError ? 'redPrimary' : 'accentPrimary'}
             disabled={!commit || !isValid}
             loading={(isCostLoading && !isCostError) || commit.isLoading}
             suffix={

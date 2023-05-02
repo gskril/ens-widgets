@@ -15,16 +15,16 @@ const IconWrapper = styled.div<{ status: Status }>(
   ({ status, theme }) => css`
     width: ${theme.space[6]};
     height: ${theme.space[6]};
-    color: ${theme.colors.white};
+    color: #fff;
     padding: ${status === 'loading' ? 0 : theme.space[1]};
     border-radius: ${theme.radii.full};
     background-color: ${status === 'success'
       ? theme.colors.green
       : status === 'loading'
-      ? theme.colors.transparent
+      ? 'transparent'
       : status === 'error'
       ? theme.colors.red
-      : theme.colors.accentSecondary};
+      : theme.colors.accentLight};
 
     & > * {
       width: 100%;
@@ -52,7 +52,7 @@ export const Stage = ({ label, status }: StageProps) => {
           <CrossIcon />
         ) : null}
       </IconWrapper>
-      <Typography as="span">{label}</Typography>
+      <Typography asProp="span">{label}</Typography>
     </Container>
   )
 }

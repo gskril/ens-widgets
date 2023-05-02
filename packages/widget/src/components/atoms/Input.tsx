@@ -10,7 +10,8 @@ const InputWrapper = styled.div(
     flex-direction: column;
     gap: ${theme.space[1]};
     padding: ${theme.space[3]} ${theme.space[4]};
-    border: ${theme.borderWidths['0.375']} solid ${theme.colors.borderTertiary};
+    border: ${theme.borderWidths['0.375']} solid
+      ${theme.colors.backgroundSecondary};
     background-color: ${theme.colors['0']};
     border-radius: ${theme.radii.medium};
     box-shadow: 1px 1px 6px rgba(66, 124, 211, 0.1);
@@ -23,17 +24,17 @@ const InputWrapper = styled.div(
 
 const Label = styled.label(
   ({ theme }) => css`
-    font-size: ${theme.fontSizes.small};
+    font-size: 15px;
     font-family: ${theme.fonts.sans};
-    font-weight: ${theme.fontWeights.normal};
-    color: ${theme.colors.lightGrey};
+    font-weight: 400;
+    color: ${theme.colors.textTertiary};
     text-align: left;
   `
 )
 const StyledInput = styled.input(
   ({ theme }) => css`
     font-family: ${theme.fonts.sans};
-    font-weight: ${theme.fontWeights.medium};
+    font-weight: ${theme.fontWeights.normal};
     font-size: 1.75rem;
     line-height: 1;
     width: 100%;
@@ -43,7 +44,7 @@ const StyledInput = styled.input(
     background-color: inherit;
 
     &::placeholder {
-      color: ${theme.colors.lightGrey};
+      color: ${theme.colors.textTertiary};
     }
 
     &:focus {
@@ -81,9 +82,9 @@ const Counter = styled.button(
     height: ${theme.space[6]};
     border-radius: ${theme.radii.full};
     background-color: ${theme.colors.accent};
-    border: 1px solid ${theme.colors.borderTertiary};
+    border: 1px solid rgba(0, 0, 0, 0.05);
     font-size: ${theme.fontSizes.large};
-    color: ${theme.colors.white};
+    color: #fff;
     line-height: 1;
     transition: all 0.1s ease-in-out;
 
@@ -92,7 +93,7 @@ const Counter = styled.button(
     }
 
     &:disabled {
-      background-color: ${theme.colors.accentSecondary};
+      background-color: ${theme.colors.accentSurface};
     }
   `
 )
@@ -110,7 +111,7 @@ const ValidationIconWrapper = styled.div<{ isValid?: boolean | undefined }>(
     height: ${theme.space[4]};
     border-radius: ${theme.radii.full};
     background-color: ${isValid ? theme.colors.green : theme.colors.red};
-    color: ${theme.colors.white};
+    color: #fff;
     transition: background-color 0.1s ease-in-out;
   `
 )

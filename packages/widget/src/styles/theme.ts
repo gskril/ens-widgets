@@ -14,7 +14,6 @@ export const lightTheme = {
   },
   boxShadows: {
     ...thorinLightTheme.boxShadows,
-    primary: '1px 4px 26px rgba(78, 162, 240, 0.25)',
   },
 }
 
@@ -29,8 +28,6 @@ export const darkTheme = {
   },
   boxShadows: {
     ...thorinDarkTheme.boxShadows,
-    primary: '1px 4px 26px rgba(78, 162, 240, 0.25)',
-    '0.02': '0 2px 8px rgb(255 255 255 / 3%)',
   },
 }
 

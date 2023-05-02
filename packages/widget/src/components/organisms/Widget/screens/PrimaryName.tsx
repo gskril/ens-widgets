@@ -74,10 +74,10 @@ export const PrimaryName = ({
     <Container>
       {hasHeader && <Header />}
 
-      <Typography as="p">
+      <Typography asProp="p">
         To improve your web3 experience, set your Primary ENS Name.
       </Typography>
-      <Typography as="p">
+      <Typography asProp="p">
         This will allow dapps to identify you as {name}.eth
       </Typography>
 
@@ -88,9 +88,8 @@ export const PrimaryName = ({
       ) : receipt.isLoading ? (
         <Button
           loading
-          shadowless
-          variant="secondary"
-          tone={transaction.isError ? 'red' : 'accent'}
+          shadow={false}
+          colorStyle={transaction.isError ? 'redSecondary' : 'accentSecondary'}
           onClick={() => {
             window.open(getEtherscanLink(transaction.data, chain), '_blank')
           }}
@@ -100,19 +99,19 @@ export const PrimaryName = ({
       ) : (
         <ButtonsColumn>
           <Button
-            shadowless
+            shadow={false}
             size="small"
             className="small"
-            variant="secondary"
+            colorStyle="accentSecondary"
             onClick={() => setIsPrimaryNameSet(true)}
           >
             Skip
           </Button>
 
           <Button
-            shadowless
+            shadow={false}
             className="normal"
-            variant="secondary"
+            colorStyle="accentSecondary"
             onClick={() => setIsPrimaryNameSet(true)}
           >
             Skip
@@ -120,8 +119,7 @@ export const PrimaryName = ({
 
           <Button
             disabled={!transaction.write}
-            variant="primary"
-            tone={transaction.isError ? 'red' : 'accent'}
+            colorStyle={transaction.isError ? 'redPrimary' : 'accentPrimary'}
             loading={prepare.isLoading || transaction.isLoading}
             onClick={() => transaction.write?.()}
           >

@@ -5,7 +5,7 @@ const Container = styled.div(
     position: relative;
     width: 100%;
     height: ${theme.space[3]};
-    background-color: ${theme.colors.accentSecondary};
+    background-color: ${theme.colors.accentLight};
     border-radius: ${theme.radii.medium};
     overflow: hidden;
   `
