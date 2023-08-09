@@ -33,6 +33,10 @@ h4 {
   font-size: 1.25rem;
 }
 
+a {
+  color: #3888ff;
+}
+
 /* DEMO SPECIFIC */
 
 body {
@@ -45,9 +49,10 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 2rem;
   min-height: 100vh;
-  padding: 1rem 1rem 2rem;
+  padding: 1rem;
 }
 
 .wrapper {

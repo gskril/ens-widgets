@@ -16,6 +16,8 @@ export default function Home() {
 
   return (
     <main>
+      <div />
+
       <div className="wrapper">
         <ConnectButton showBalance={false} />
 
@@ -27,6 +29,8 @@ export default function Home() {
           trackingCode="demo.eth"
         />
       </div>
+
+      <a href="https://github.com/gskril/ens-widgets">GitHub Repo</a>
     </main>
   )
 }
